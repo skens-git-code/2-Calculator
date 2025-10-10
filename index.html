@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mathens.Io</title>
+    <title>Mathens.io</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
 
 </head>
 <body>
@@ -38,7 +39,6 @@
                 <button class="sound-toggle" id="sound-toggle" aria-label="Toggle sound">
                     <span>🔊 Sound</span>
                 </button>
-                
             </div>
         </header>
 
@@ -229,35 +229,10 @@
         </main>
 
         <!-- Footer Section -->
-        <!-- <footer class="footer">
-            <p>© All Rights Are reserved By Sarthak Mathapati.</p>
-             <a href="https://mathapati8.netlify.app/">
-                <button class="port mode-btn ">To Know Me Then Click</button>
-             </a>
-        </footer>
-         -->
-
-         <footer class="footer active" style="text-align:center; padding:20px; border-top:1px ;">
+        <footer class="footer">
             <p style="font-size:16px; margin-bottom:10px;">© All Rights Reserved by <strong>Sarthak Mathapati</strong>.</p>
-                <button 
-                     class="port mode-btn active"onclick="thankUser()"style="padding:10px 20px; border:none; border-radius:8px; background:#0078ff; color:white; cursor:pointer; font-size:15px;">To Know Me Then Click
-                </button>
-         </footer>
-         
-
-<script>
-  function thankUser() {
-    // Show thank-you message
-    alert("🌟 Thank you so much for using my calculator! 💖\nI really appreciate your time — hope it was helpful! 😊");
-    
-    // Open portfolio link in new tab
-    window.open("https://mathapati8.netlify.app/", "_blank");
-  }
-</script>
-
-
-        
-
+            <button class="port mode-btn active" onclick="thankUser()" style="padding:10px 20px; border:none; border-radius:8px; background:#0078ff; color:white; cursor:pointer; font-size:15px;">To Know Me Then Click</button>
+        </footer>
     </div>
 
     <!-- Keyboard Shortcut Hint -->
@@ -453,10 +428,81 @@ function factorial(n) {
     return result;
 }
 
+// Enhanced smooth auto-scroll function
+function smoothScrollToBottom(element) {
+    if (!element) return;
+    
+    const targetScrollTop = element.scrollHeight - element.clientHeight;
+    const currentScrollTop = element.scrollTop;
+    const distance = targetScrollTop - currentScrollTop;
+    
+    if (Math.abs(distance) < 5) {
+        element.scrollTop = targetScrollTop;
+        return;
+    }
+    
+    // Use requestAnimationFrame for smooth animation
+    const startTime = performance.now();
+    const duration = 300; // milliseconds
+    
+    function animateScroll(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth acceleration/deceleration
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        
+        element.scrollTop = currentScrollTop + (distance * easeOutQuart);
+        
+        if (progress < 1) {
+            requestAnimationFrame(animateScroll);
+        }
+    }
+    
+    requestAnimationFrame(animateScroll);
+}
+
+// Updated auto-scroll display function
+function autoScrollDisplay() {
+    if (elements.calculation && elements.calculation.scrollHeight > elements.calculation.clientHeight) {
+        smoothScrollToBottom(elements.calculation);
+    }
+    
+    if (elements.result && elements.result.scrollHeight > elements.result.clientHeight) {
+        smoothScrollToBottom(elements.result);
+    }
+}
+
+// Smooth history panel scrolling
+function smoothScrollHistoryToTop() {
+    if (!elements.historyList) return;
+    
+    const startScrollTop = elements.historyList.scrollTop;
+    const duration = 400;
+    const startTime = performance.now();
+    
+    function animateScroll(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Cubic ease-out function
+        const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+        
+        elements.historyList.scrollTop = startScrollTop * (1 - easeOutCubic);
+        
+        if (progress < 1) {
+            requestAnimationFrame(animateScroll);
+        }
+    }
+    
+    requestAnimationFrame(animateScroll);
+}
+
 // Initialize the calculator
 function initCalculator() {
     simulateLoading();
     setupEventListeners();
+    setupSmoothScrolling();
     loadSavedData();
     performInitialConversions();
     adjustGridLayout();
@@ -553,34 +599,118 @@ function setupEventListeners() {
         elements.clearHistoryButton.addEventListener('click', clearHistory);
     }
 
+    // Close history panel when clicking outside
+    document.addEventListener('click', (e) => {
+        if (elements.historyPanel && elements.historyPanel.classList.contains('active') && 
+            !e.target.closest('.history-panel') && !e.target.closest('.btn-history')) {
+            elements.historyPanel.classList.remove('active');
+        }
+    });
+
     // Keyboard support
     document.addEventListener('keydown', handleKeyboardInput);
 
     // Window resize for responsive grid
     window.addEventListener('resize', debounce(adjustGridLayout, 250));
+    
+    // Touch device optimizations
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
 }
 
-// Improved responsive grid adjustment
+// Touch event handlers for better mobile experience
+function handleTouchStart(e) {
+    // Add active state to buttons for better touch feedback
+    if (e.target.closest('.btn')) {
+        e.target.closest('.btn').classList.add('touch-active');
+    }
+}
+
+function handleTouchMove(e) {
+    // Remove active state when touch moves away
+    document.querySelectorAll('.btn.touch-active').forEach(btn => {
+        if (!e.target.closest('.btn') || e.target.closest('.btn') !== btn) {
+            btn.classList.remove('touch-active');
+        }
+    });
+}
+
+// Enhanced responsive grid adjustment
 function adjustGridLayout() {
     const width = window.innerWidth;
+    const height = window.innerHeight;
+    
+    // Dynamic font sizing based on screen size
+    const baseFontSize = Math.min(Math.max(width * 0.02, 12), 16);
+    document.documentElement.style.setProperty('--dynamic-font-size', `${baseFontSize}px`);
     
     if (elements.scientificCalculator) {
         if (width <= 480) {
             elements.scientificCalculator.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            elements.scientificCalculator.style.gap = '8px';
         } else if (width <= 768) {
             elements.scientificCalculator.style.gridTemplateColumns = 'repeat(4, 1fr)';
+            elements.scientificCalculator.style.gap = '10px';
+        } else if (width <= 1024) {
+            elements.scientificCalculator.style.gridTemplateColumns = 'repeat(5, 1fr)';
+            elements.scientificCalculator.style.gap = '12px';
         } else {
             elements.scientificCalculator.style.gridTemplateColumns = 'repeat(5, 1fr)';
+            elements.scientificCalculator.style.gap = '15px';
         }
     }
     
     if (elements.advancedCalculator) {
         if (width <= 480) {
             elements.advancedCalculator.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            elements.advancedCalculator.style.gap = '8px';
         } else if (width <= 768) {
             elements.advancedCalculator.style.gridTemplateColumns = 'repeat(4, 1fr)';
+            elements.advancedCalculator.style.gap = '10px';
+        } else if (width <= 1024) {
+            elements.advancedCalculator.style.gridTemplateColumns = 'repeat(5, 1fr)';
+            elements.advancedCalculator.style.gap = '12px';
         } else {
             elements.advancedCalculator.style.gridTemplateColumns = 'repeat(5, 1fr)';
+            elements.advancedCalculator.style.gap = '15px';
+        }
+    }
+    
+    // Adjust converter layouts for different screen sizes
+    if (elements.currencyConverter) {
+        if (width <= 768) {
+            elements.currencyConverter.style.flexDirection = 'column';
+            elements.currencyConverter.style.gap = '15px';
+        } else {
+            elements.currencyConverter.style.flexDirection = 'row';
+            elements.currencyConverter.style.gap = '20px';
+        }
+    }
+    
+    if (elements.unitConverter) {
+        if (width <= 768) {
+            elements.unitConverter.style.flexDirection = 'column';
+            elements.unitConverter.style.gap = '15px';
+        } else {
+            elements.unitConverter.style.flexDirection = 'row';
+            elements.unitConverter.style.gap = '20px';
+        }
+    }
+    
+    // Adjust display area for very large screens
+    if (elements.calculation && elements.result) {
+        if (width > 1920) {
+            elements.calculation.style.fontSize = '1.5em';
+            elements.result.style.fontSize = '2.5em';
+        } else if (width > 1440) {
+            elements.calculation.style.fontSize = '1.3em';
+            elements.result.style.fontSize = '2.2em';
+        } else if (width <= 480) {
+            elements.calculation.style.fontSize = '0.9em';
+            elements.result.style.fontSize = '1.5em';
+        } else {
+            elements.calculation.style.fontSize = '1.1em';
+            elements.result.style.fontSize = '2em';
         }
     }
 }
@@ -982,43 +1112,34 @@ function backspace() {
     updateDisplay();
 }
 
-// Auto-scroll display to show latest content
-function autoScrollDisplay() {
-    if (elements.calculation && elements.calculation.scrollHeight > elements.calculation.clientHeight) {
-        elements.calculation.scrollTop = elements.calculation.scrollHeight;
-        elements.calculation.classList.add('auto-scroll');
-    }
-    
-    if (elements.result && elements.result.scrollHeight > elements.result.clientHeight) {
-        elements.result.scrollTop = elements.result.scrollHeight;
-        elements.result.classList.add('auto-scroll');
-    }
-}
-
-// Update display with proper formatting and auto-scroll
+// Enhanced update display with better performance
 function updateDisplay() {
     if (!elements.result || !elements.calculation) return;
     
-    elements.result.textContent = formatNumber(calculator.currentInput);
-    elements.result.classList.remove('error', 'success');
-    
-    if (calculator.operation !== null) {
-        elements.calculation.textContent = `${formatNumber(calculator.previousInput)} ${getOperationSymbol(calculator.operation)}`;
-    } else if (calculator.waitingForSecondInput && calculator.multiInputOperation) {
-        elements.calculation.textContent = `${getOperationSymbol(calculator.multiInputOperation)}(${calculator.previousInput},`;
-    } else {
-        elements.calculation.textContent = '';
-    }
-    
-    if (elements.memoryIndicator) {
-        if (calculator.hasMemory) {
-            elements.memoryIndicator.classList.add('active');
+    // Use requestAnimationFrame for smoother visual updates
+    requestAnimationFrame(() => {
+        elements.result.textContent = formatNumber(calculator.currentInput);
+        elements.result.classList.remove('error', 'success');
+        
+        if (calculator.operation !== null) {
+            elements.calculation.textContent = `${formatNumber(calculator.previousInput)} ${getOperationSymbol(calculator.operation)}`;
+        } else if (calculator.waitingForSecondInput && calculator.multiInputOperation) {
+            elements.calculation.textContent = `${getOperationSymbol(calculator.multiInputOperation)}(${calculator.previousInput},`;
         } else {
-            elements.memoryIndicator.classList.remove('active');
+            elements.calculation.textContent = '';
         }
-    }
-    
-    setTimeout(autoScrollDisplay, 10);
+        
+        if (elements.memoryIndicator) {
+            if (calculator.hasMemory) {
+                elements.memoryIndicator.classList.add('active');
+            } else {
+                elements.memoryIndicator.classList.remove('active');
+            }
+        }
+        
+        // Use a slight delay to ensure DOM is updated before scrolling
+        setTimeout(autoScrollDisplay, 16); // ~60fps
+    });
 }
 
 // Enhanced formatNumber function for better display
@@ -1085,6 +1206,9 @@ function switchMode(mode) {
             if (elements.unitConverter) elements.unitConverter.style.display = 'flex';
             break;
     }
+    
+    // Re-adjust layout after mode switch
+    setTimeout(adjustGridLayout, 100);
 }
 
 // Toggle theme
@@ -1297,11 +1421,8 @@ function updateHistoryDisplay() {
         elements.historyList.appendChild(li);
     });
     
-    setTimeout(() => {
-        if (elements.historyList) {
-            elements.historyList.scrollTop = 0;
-        }
-    }, 100);
+    // Use smooth scrolling instead of instant scroll
+    setTimeout(smoothScrollHistoryToTop, 100);
 }
 
 // History functions
@@ -1493,8 +1614,52 @@ function handleKeyboardInput(event) {
     }
 }
 
+// Debounced scroll handlers for better performance
+function setupSmoothScrolling() {
+    let scrollTimeout;
+    
+    // Add smooth scroll on wheel/touch events
+    const scrollableElements = [
+        elements.calculation,
+        elements.result,
+        elements.historyList
+    ].filter(el => el);
+    
+    scrollableElements.forEach(element => {
+        element.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            
+            // Use CSS smooth scrolling for wheel events
+            const delta = e.deltaY || e.detail || (-e.wheelDelta);
+            element.scrollBy({
+                top: delta,
+                behavior: 'smooth'
+            });
+        }, { passive: false });
+        
+        // Touch device optimizations
+        element.addEventListener('touchstart', () => {
+            element.style.scrollBehavior = 'auto';
+        });
+        
+        element.addEventListener('touchend', () => {
+            setTimeout(() => {
+                element.style.scrollBehavior = 'smooth';
+            }, 100);
+        });
+    });
+}
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', initCalculator);
+
+// Thank user function
+function thankUser() {
+    alert("🌟 Thank you so much for using my calculator! 💖\nI really appreciate your time — hope it was helpful! 😊");
+    window.open("https://mathapati8.netlify.app/", "_blank");
+}
+ 
+
 
     </script>
 </body>
