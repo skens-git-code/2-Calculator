@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mathens</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Montserrat:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <link rel="stylesheet" href="style.css">
-    
 </head>
 
 <body class="dark-theme">
@@ -20,8 +21,7 @@
             <div class="gradient gradient-2"></div>
             <div class="gradient gradient-3"></div>
         </div>
-        <div class="particles" id="particles"></div>
-        <div class="falling-stars" id="fallingStars"></div>
+        <canvas id="bgCanvas"></canvas>
         <div class="grid-overlay"></div>
     </div>
 
@@ -32,14 +32,14 @@
                 <div class="logo-icon">🧮</div>
                 <h1>Mathens.io</h1>
             </div>
-            
+
             <div class="loading-progress">
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
                 <div class="loading-percentage" id="loading-percentage">0%</div>
             </div>
-            
+
             <div class="loading-animation">
                 <div class="loading-dots">
                     <div class="dot"></div>
@@ -47,7 +47,7 @@
                     <div class="dot"></div>
                 </div>
             </div>
-            
+
             <div class="loading-hint" id="loading-hint">
                 Initializing calculator engine...
             </div>
@@ -63,15 +63,20 @@
                 <span>Mathens.io</span>
             </div>
             <div class="header-controls">
-                <button class="theme-toggle ios-26-effect" id="theme-toggle" aria-label="Toggle theme">
+                <button class="theme-toggle ios-26-effect" id="theme-toggle" aria-label="Toggle theme"
+                    title="Switch Theme">
                     <span id="theme-icon">🌙</span>
-                    <span id="theme-text">Dark</span>
+                    <span id="theme-text" class="nav-label">Dark</span>
                 </button>
-                <button class="sound-toggle ios-26-effect" id="sound-toggle" aria-label="Toggle sound">
-                    <span>🔊 Sound</span>
+                <button class="sound-toggle ios-26-effect" id="sound-toggle" aria-label="Toggle sound"
+                    title="Toggle Audio Effects">
+                    <span class="nav-icon">🔊</span>
+                    <span class="nav-label">Sound</span>
                 </button>
-                <button class="rgb-toggle ios-26-effect" id="rgb-toggle" aria-label="Toggle RGB effects">
-                    <span>🌈 RGB</span>
+                <button class="rgb-toggle ios-26-effect" id="rgb-toggle" aria-label="Toggle RGB effects"
+                    title="Toggle Motion Visuals">
+                    <span class="nav-icon">🌈</span>
+                    <span class="nav-label">VFX</span>
                 </button>
             </div>
         </header>
@@ -82,9 +87,26 @@
             <div class="mode-selector">
                 <button class="mode-btn active" data-mode="normal">Normal</button>
                 <button class="mode-btn" data-mode="scientific">Scientific</button>
-                <button class="mode-btn" data-mode="advanced">Advanced</button>
+                <button class="mode-btn" data-mode="advanced" title="Statistical Mode">Stats</button>
+                <button class="mode-btn" data-mode="matrix">Matrix</button>
+                <button class="mode-btn" data-mode="equation">Solver</button>
+                <button class="mode-btn" data-mode="graph">Graph</button>
+                <button class="mode-btn" data-mode="geometry">Shapes</button>
+                <button class="mode-btn" data-mode="financial">Finance</button>
                 <button class="mode-btn" data-mode="currency">Currency</button>
                 <button class="mode-btn" data-mode="unit">Unit</button>
+                <button class="mode-btn" data-mode="dashboard" title="Usage Dashboard"><i
+                        class="fas fa-chart-line"></i></button>
+                <button class="mode-btn" data-mode="settings" title="Engine Settings"><i
+                        class="fas fa-microchip"></i></button>
+                <button class="mode-btn" data-mode="vector" title="Vector Engine"><i
+                        class="fas fa-arrows-alt"></i></button>
+                <button class="mode-btn" data-mode="bitwise" title="Bitwise Engine"><i
+                        class="fas fa-binary"></i></button>
+                <button class="mode-btn" data-mode="probability" title="Probability Engine"><i
+                        class="fas fa-percentage"></i></button>
+                <button class="mode-btn" data-mode="diagnostics" title="System Logs"><i
+                        class="fas fa-terminal"></i></button>
             </div>
 
             <!-- Display Area with History -->
@@ -92,7 +114,7 @@
                 <div class="memory-indicator" id="memory-indicator">M</div>
                 <div class="calculation" id="calculation"></div>
                 <div class="result" id="result">0</div>
-                
+
                 <!-- History Panel -->
                 <div class="history-panel" id="history-panel">
                     <div class="history-header">
@@ -107,32 +129,38 @@
 
             <!-- Normal Calculator Buttons -->
             <div class="button-grid" id="normal-calculator">
-                <button class="btn btn-history ios-26-effect" data-action="history" aria-label="Show history">📜</button>
-                <button class="btn btn-memory ios-26-effect" data-action="memory-clear" aria-label="Memory clear">MC</button>
-                <button class="btn btn-memory ios-26-effect" data-action="memory-recall" aria-label="Memory recall">MR</button>
+                <button class="btn btn-history ios-26-effect" data-action="history"
+                    aria-label="Show history">📜</button>
+                <button class="btn btn-memory ios-26-effect" data-action="memory-clear"
+                    aria-label="Memory clear">MC</button>
+                <button class="btn btn-memory ios-26-effect" data-action="memory-recall"
+                    aria-label="Memory recall">MR</button>
                 <button class="btn btn-clear ios-26-effect" data-action="clear" aria-label="Clear">C</button>
-                
-                <button class="btn btn-clear ios-26-effect" data-action="clear-entry" aria-label="Clear entry">CE</button>
-                <button class="btn btn-operation ios-26-effect" data-action="backspace" aria-label="Backspace">⌫</button>
+
+                <button class="btn btn-clear ios-26-effect" data-action="clear-entry"
+                    aria-label="Clear entry">CE</button>
+                <button class="btn btn-operation ios-26-effect" data-action="backspace"
+                    aria-label="Backspace">⌫</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="/" aria-label="Divide">÷</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="^" aria-label="Power">x^y</button>
-                
+
                 <button class="btn ios-26-effect" data-number="7" aria-label="7">7</button>
                 <button class="btn ios-26-effect" data-number="8" aria-label="8">8</button>
                 <button class="btn ios-26-effect" data-number="9" aria-label="9">9</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="*" aria-label="Multiply">×</button>
-                
+
                 <button class="btn ios-26-effect" data-number="4" aria-label="4">4</button>
                 <button class="btn ios-26-effect" data-number="5" aria-label="5">5</button>
                 <button class="btn ios-26-effect" data-number="6" aria-label="6">6</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="-" aria-label="Subtract">−</button>
-                
+
                 <button class="btn ios-26-effect" data-number="1" aria-label="1">1</button>
                 <button class="btn ios-26-effect" data-number="2" aria-label="2">2</button>
                 <button class="btn ios-26-effect" data-number="3" aria-label="3">3</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="+" aria-label="Add">+</button>
-                
-                <button class="btn btn-memory ios-26-effect" data-action="memory-add" aria-label="Memory add">M+</button>
+
+                <button class="btn btn-memory ios-26-effect" data-action="memory-add"
+                    aria-label="Memory add">M+</button>
                 <button class="btn ios-26-effect" data-number="0" aria-label="0">0</button>
                 <button class="btn ios-26-effect" data-number="." aria-label="Decimal point">.</button>
                 <button class="btn btn-equals ios-26-effect" data-action="calculate" aria-label="Equals">=</button>
@@ -143,35 +171,146 @@
                 <button class="btn btn-operation ios-26-effect" data-operation="sin" aria-label="Sine">sin</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="cos" aria-label="Cosine">cos</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="tan" aria-label="Tangent">tan</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="log" aria-label="Logarithm base 10">log</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="ln" aria-label="Natural logarithm">ln</button>
-                
-                <button class="btn btn-operation ios-26-effect" data-operation="asin" aria-label="Inverse sine">asin</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="acos" aria-label="Inverse cosine">acos</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="atan" aria-label="Inverse tangent">atan</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="sqrt" aria-label="Square root">√</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="log"
+                    aria-label="Logarithm base 10">log</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="ln"
+                    aria-label="Natural logarithm">ln</button>
+
+                <button class="btn btn-operation ios-26-effect" data-operation="asin"
+                    aria-label="Inverse sine">asin</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="acos"
+                    aria-label="Inverse cosine">acos</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="atan"
+                    aria-label="Inverse tangent">atan</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="sqrt"
+                    aria-label="Square root">√</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="square" aria-label="Square">x²</button>
-                
-                <button class="btn btn-operation ios-26-effect" data-operation="factorial" aria-label="Factorial">x!</button>
+
+                <button class="btn btn-operation ios-26-effect" data-operation="factorial"
+                    aria-label="Factorial">x!</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="pi" aria-label="Pi">π</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="e" aria-label="Euler's number">e</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="e"
+                    aria-label="Euler's number">e</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="mod" aria-label="Modulo">mod</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="exp" aria-label="Exponential">exp</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="exp"
+                    aria-label="Exponential">exp</button>
             </div>
 
             <!-- Advanced Calculator Buttons -->
             <div class="advanced-buttons" id="advanced-calculator" style="display: none;">
-                <button class="btn btn-operation ios-26-effect" data-operation="percent" aria-label="Percentage">%</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="combination" aria-label="Combination">C(n,r)</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="permutation" aria-label="Permutation">P(n,r)</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="percent"
+                    aria-label="Percentage">%</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="combination"
+                    aria-label="Combination">C(n,r)</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="permutation"
+                    aria-label="Permutation">P(n,r)</button>
                 <button class="btn btn-operation ios-26-effect" data-operation="mean" aria-label="Mean">Mean</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="median" aria-label="Median">Median</button>
-                
-                <button class="btn btn-operation ios-26-effect" data-operation="std" aria-label="Standard deviation">Std Dev</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="var" aria-label="Variance">Variance</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="gcd" aria-label="Greatest common divisor">GCD</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="lcm" aria-label="Least common multiple">LCM</button>
-                <button class="btn btn-operation ios-26-effect" data-operation="log2" aria-label="Logarithm base 2">log₂</button>
+                <button class="btn btn-operation ios-26-effect" data-number="," aria-label="Comma">,</button>
+
+                <button class="btn btn-operation ios-26-effect" data-operation="median"
+                    aria-label="Median">Median</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="std" aria-label="Standard deviation">Std
+                    Dev</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="var"
+                    aria-label="Variance">Variance</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="gcd"
+                    aria-label="Greatest common divisor">GCD</button>
+                <button class="btn btn-operation ios-26-effect" data-operation="lcm"
+                    aria-label="Least common multiple">LCM</button>
+
+                <button class="btn btn-operation ios-26-effect" data-operation="log2"
+                    aria-label="Logarithm base 2">log₂</button>
+            </div>
+
+            <!-- Matrix Calculator -->
+            <div class="matrix-calculator functional-panel" id="matrix-calculator">
+                <div class="matrix-container">
+                    <div class="matrix-labels"
+                        style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>Matrix A (Size)</span>
+                        <select id="matrix-size" class="ios-26-effect">
+                            <option value="2">2x2</option>
+                            <option value="3" selected>3x3</option>
+                        </select>
+                    </div>
+                    <div class="matrix-grid-input" id="matrix-a-grid">
+                        <!-- Dynamic cells -->
+                    </div>
+                    <div class="matrix-actions">
+                        <button class="btn btn-operation ios-26-effect" id="matrix-det">Det(A)</button>
+                        <button class="btn btn-operation ios-26-effect" id="matrix-inv">Inv(A)</button>
+                        <button class="btn btn-operation ios-26-effect" id="matrix-trans">Trans(A)</button>
+                        <button class="btn btn-operation ios-26-effect" id="matrix-clear">Clear</button>
+                    </div>
+                    <div id="matrix-result-display" class="result-box glass-card">
+                        <h4 style="margin-bottom: 10px;">Result Matrix</h4>
+                        <div id="matrix-result-grid" class="matrix-grid-input" style="pointer-events: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equation Solver -->
+            <div class="equation-solver-panel functional-panel" id="equation-solver">
+                <div class="glass-card ios-26-glass" style="padding: 20px;">
+                    <select id="equation-type" class="ios-26-effect" style="width: 100%; margin-bottom: 20px;">
+                        <option value="linear">Linear: ax + b = 0</option>
+                        <option value="quadratic">Quadratic: ax² + bx + c = 0</option>
+                        <option value="cubic">Cubic: ax³ + bx² + cx + d = 0</option>
+                    </select>
+                    <div id="eq-inputs-container" class="equation-inputs">
+                        <!-- Dynamic inputs -->
+                    </div>
+                    <button class="btn btn-equals ios-26-effect" id="solve-equation" style="margin-top: 20px;">Solve
+                        Equation</button>
+                    <div id="eq-result" class="result-box glass-card">
+                        Result: <span id="eq-result-text" style="color: var(--primary); font-weight: bold;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Geometric Module -->
+            <div class="geometric-panel" id="geometric-panel" style="display: none;">
+                <div class="geometry-grid">
+                    <div class="geo-card ios-26-effect" data-shape="circle">
+                        <div class="geo-icon"><i class="far fa-circle"></i></div>
+                        <span>Circle</span>
+                    </div>
+                    <div class="geo-card ios-26-effect" data-shape="triangle">
+                        <div class="geo-icon"><i class="fas fa-draw-polygon"></i></div>
+                        <span>Triangle</span>
+                    </div>
+                    <div class="geo-card ios-26-effect" data-shape="rectangle">
+                        <div class="geo-icon"><i class="far fa-square"></i></div>
+                        <span>Rectangle</span>
+                    </div>
+                    <div class="geo-card ios-26-effect" data-shape="sphere">
+                        <div class="geo-icon"><i class="fas fa-globe"></i></div>
+                        <span>Sphere</span>
+                    </div>
+                    <div class="geo-card ios-26-effect" data-shape="cylinder">
+                        <div class="geo-icon"><i class="fas fa-database"></i></div>
+                        <span>Cylinder</span>
+                    </div>
+                </div>
+                <div id="geo-input-container" class="glass-card ios-26-glass"
+                    style="margin-top: 25px; padding: 20px; display: none;">
+                    <!-- Dynamic geometry fields -->
+                </div>
+            </div>
+
+            <!-- Graphing Engine -->
+            <div class="graphing-panel" id="graphing-panel" style="display: none;">
+                <div id="graphing-view">
+                    <canvas id="graph-canvas"></canvas>
+                </div>
+                <div class="graph-controls">
+                    <div class="graph-input-group">
+                        <span style="font-size: 1.2rem; align-self: center;">f(x) =</span>
+                        <input type="text" id="graph-function" placeholder="sin(x) * cos(x/2)" value="sin(x)">
+                    </div>
+                    <button class="btn btn-operation ios-26-effect" id="plot-graph">Plot</button>
+                    <button class="btn btn-operation ios-26-effect" id="clear-graph">Clear</button>
+                </div>
             </div>
 
             <!-- Currency Converter -->
@@ -186,10 +325,11 @@
                             <option value="INR" selected>INR - Indian Rupee</option>
                             <option value="JPY">JPY - Japanese Yen</option>
                         </select>
-                        <input type="number" id="from-amount" class="ios-26-effect" placeholder="0" value="1" min="0" step="any">
+                        <input type="number" id="from-amount" class="ios-26-effect" placeholder="0" value="1" min="0"
+                            step="any">
                     </div>
                 </div>
-                
+
                 <div class="converter-group">
                     <label for="to-currency">To Currency</label>
                     <div class="converter-selector">
@@ -203,8 +343,41 @@
                         <input type="number" id="to-amount" class="ios-26-effect" placeholder="0" readonly>
                     </div>
                 </div>
-                
+
                 <button class="btn btn-equals ios-26-effect" id="convert-currency">Convert</button>
+            </div>
+
+            <!-- Financial Calculator -->
+            <div class="financial-calculator functional-panel" id="financial-calculator">
+                <div class="converter-group">
+                    <label for="finance-type">Calculation Type</label>
+                    <select id="finance-type" class="ios-26-effect" style="width: 100%;">
+                        <option value="emi">EMI (Loan)</option>
+                        <option value="compound">Compound Interest</option>
+                        <option value="roi">Return on Investment (ROI)</option>
+                    </select>
+                </div>
+
+                <div id="finance-inputs" class="input-group-grid" style="margin-top: 15px;">
+                    <label id="finance-label-1">Principal Amount</label>
+                    <input type="number" id="finance-input-1" class="ios-26-effect" placeholder="Amount">
+
+                    <label id="finance-label-2">Interest Rate (%)</label>
+                    <input type="number" id="finance-input-2" class="ios-26-effect" placeholder="Rate">
+
+                    <label id="finance-label-3">Tenure (Years)</label>
+                    <input type="number" id="finance-input-3" class="ios-26-effect" placeholder="Time">
+                </div>
+
+                <div class="result-box glass-card" id="finance-result-display" style="text-align: center;">
+                    <div style="font-size: 0.9rem; margin-bottom: 8px; color: var(--text-secondary);">Calculated Result:
+                    </div>
+                    <div id="finance-main-result" style="font-size: 1.8rem; font-weight: 700; color: var(--primary);">
+                    </div>
+                </div>
+
+                <button class="btn btn-equals ios-26-effect" id="calculate-finance"
+                    style="margin-top: 20px; width: 100%;">Calculate</button>
             </div>
 
             <!-- Unit Converter -->
@@ -219,17 +392,18 @@
                         <option value="volume">Volume</option>
                     </select>
                 </div>
-                
+
                 <div class="converter-group">
                     <label for="from-unit">From Unit</label>
                     <div class="converter-selector">
                         <select id="from-unit" class="ios-26-effect">
                             <!-- Options will be populated dynamically -->
                         </select>
-                        <input type="number" id="from-unit-value" class="ios-26-effect" placeholder="0" value="1" step="any">
+                        <input type="number" id="from-unit-value" class="ios-26-effect" placeholder="0" value="1"
+                            step="any">
                     </div>
                 </div>
-                
+
                 <div class="converter-group">
                     <label for="to-unit">To Unit</label>
                     <div class="converter-selector">
@@ -239,14 +413,204 @@
                         <input type="number" id="to-unit-value" class="ios-26-effect" placeholder="0" readonly>
                     </div>
                 </div>
-                
+
                 <button class="btn btn-equals ios-26-effect" id="convert-unit">Convert</button>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div class="dashboard-section" id="dashboard-section" style="display: none;">
+                <div class="glass-card ios-26-glass dashboard-panel" style="display: block;">
+                    <h3 style="margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-rocket" style="color: var(--primary);"></i>
+                        <span>Performance Dashboard</span>
+                    </h3>
+
+                    <div class="dashboard-stats">
+                        <div class="stat-item">
+                            <span class="stat-value" id="dash-calc-count">0</span>
+                            <span class="stat-label">Calculations</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="dash-uptime">0m</span>
+                            <span class="stat-label">Uptime</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">High</span>
+                            <span class="stat-label">Efficiency</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <h4 style="font-size: 0.9rem; margin-bottom: 15px; opacity: 0.8;">Recent Activity Insight</h4>
+                        <div class="glass-card"
+                            style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 16px;">
+                            <p style="font-size: 0.85rem; line-height: 1.6;">
+                                Your most used mode is <strong style="color: var(--primary);"
+                                    id="most-used-mode">Normal</strong>.
+                                You've saved approximately <span style="color: var(--primary);">15%</span> more time
+                                using scientific shortcuts today.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="settings-section" id="settings-section" style="display: none;">
+                <div class="glass-card ios-26-glass settings-panel" style="display: block;">
+                    <h3 style="margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-sliders-h" style="color: var(--primary);"></i>
+                        <span>System Control</span>
+                    </h3>
+
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <label style="display: block; font-size: 0.9rem; margin-bottom: 10px; opacity: 0.8;">Glass
+                                Theme</label>
+                            <select id="setting-glass-theme" class="ios-26-effect" style="width: 100%;">
+                                <option value="default">Default Crystal</option>
+                                <option value="ice">Ice Diamond</option>
+                                <option value="amethyst">Amethyst Glow</option>
+                                <option value="emerald">Emerald Mist</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-card">
+                            <label
+                                style="display: block; font-size: 0.9rem; margin-bottom: 10px; opacity: 0.8;">Typography</label>
+                            <select id="setting-font" class="ios-26-effect" style="width: 100%;">
+                                <option value="outfit">Outfit (Modern)</option>
+                                <option value="inter">Inter (Classic)</option>
+                                <option value="montserrat">Montserrat (Elegant)</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-card"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.9rem; opacity: 0.8;">High Contrast</span>
+                            <input type="checkbox" id="setting-high-contrast" class="ios-26-effect">
+                        </div>
+
+                        <div class="setting-card"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.9rem; opacity: 0.8;">Clear Storage</span>
+                            <button class="btn ios-26-effect" id="reset-all-settings"
+                                style="padding: 8px 15px; font-size: 0.8rem; background: var(--error-light); color: var(--error); border: none;">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagnostics Section -->
+            <div class="settings-section functional-panel" id="diagnostics-panel">
+                <div class="glass-card ios-26-glass settings-panel" style="display: block;">
+                    <h3 style="margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-terminal" style="color: var(--primary);"></i>
+                        <span>System Diagnostics</span>
+                    </h3>
+                    <div id="log-container" class="log-terminal">
+                        <!-- Logs inject here -->
+                    </div>
+                    <button class="btn btn-operation ios-26-effect" id="clear-logs" style="width: 100%;">Clear
+                        Logs</button>
+                </div>
+            </div>
+
+            <!-- Vector Panel -->
+            <div class="vector-panel functional-panel" id="vector-panel">
+                <div class="glass-card ios-26-glass" style="padding: 20px;">
+                    <select id="vector-op" class="ios-26-effect" style="width: 100%; margin-bottom: 20px;">
+                        <option value="add">Vector Addition (A + B)</option>
+                        <option value="dot">Dot Product (A · B)</option>
+                        <option value="cross">Cross Product (A × B)</option>
+                        <option value="mag">Magnitude (|A|)</option>
+                    </select>
+                    <div id="vector-inputs" class="input-group-grid">
+                        <div class="vec-group">
+                            <label style="display: block; margin-bottom: 5px;">Vector A (x, y, z)</label>
+                            <div class="vector-input-row">
+                                <input type="number" id="vax" placeholder="x" class="ios-26-effect" style="width: 33%;">
+                                <input type="number" id="vay" placeholder="y" class="ios-26-effect" style="width: 33%;">
+                                <input type="number" id="vaz" placeholder="z" class="ios-26-effect" style="width: 33%;">
+                            </div>
+                        </div>
+                        <div class="vec-group">
+                            <label style="display: block; margin-bottom: 5px;">Vector B (x, y, z)</label>
+                            <div class="vector-input-row">
+                                <input type="number" id="vbx" placeholder="x" class="ios-26-effect" style="width: 33%;">
+                                <input type="number" id="vby" placeholder="y" class="ios-26-effect" style="width: 33%;">
+                                <input type="number" id="vbz" placeholder="z" class="ios-26-effect" style="width: 33%;">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-equals ios-26-effect" id="calculate-vector"
+                        style="margin-top: 20px; width: 100%;">Calculate Vector</button>
+                </div>
+            </div>
+
+            <!-- Bitwise Panel -->
+            <div class="bitwise-panel functional-panel" id="bitwise-panel">
+                <div class="glass-card ios-26-glass" style="padding: 20px;">
+                    <div class="bitwise-controls input-group-grid">
+                        <label>Operand A</label>
+                        <input type="number" id="bitwise-a" placeholder="Operand A" class="ios-26-effect">
+                        <label>Operation</label>
+                        <select id="bitwise-op" class="ios-26-effect">
+                            <option value="and">AND (&)</option>
+                            <option value="or">OR (|)</option>
+                            <option value="xor">XOR (^)</option>
+                            <option value="not">NOT (~)</option>
+                            <option value="lshift">Left Shift (<<)< /option>
+                            <option value="rshift">Right Shift (>>)</option>
+                        </select>
+                        <label>Operand B</label>
+                        <input type="number" id="bitwise-b" placeholder="Operand B" class="ios-26-effect">
+                        <button class="btn btn-equals ios-26-effect" id="calculate-bitwise"
+                            style="margin-top: 10px;">Execute Bitwise</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Probability Panel -->
+            <div class="probability-panel functional-panel" id="probability-panel">
+                <div class="glass-card ios-26-glass" style="padding: 20px;">
+                    <div class="prob-controls input-group-grid">
+                        <label>Algorithm</label>
+                        <select id="probability-op" class="ios-26-effect">
+                            <option value="factorial">Factorial (n!)</option>
+                            <option value="perm">Permutation (nPr)</option>
+                            <option value="comb">Combination (nCr)</option>
+                            <option value="binom">Binomial Distribution</option>
+                        </select>
+                        <div class="vector-input-row">
+                            <div style="flex: 1;">
+                                <label style="display: block; font-size: 0.8rem; opacity: 0.7; margin-bottom: 5px;">n
+                                    (Total)</label>
+                                <input type="number" id="prob-n" placeholder="n" class="ios-26-effect"
+                                    style="width: 100%;">
+                            </div>
+                            <div style="flex: 1;">
+                                <label style="display: block; font-size: 0.8rem; opacity: 0.7; margin-bottom: 5px;">r
+                                    (Select)</label>
+                                <input type="number" id="prob-r" placeholder="r" class="ios-26-effect"
+                                    style="width: 100%;">
+                            </div>
+                        </div>
+                        <button class="btn btn-equals ios-26-effect" id="calculate-prob"
+                            style="margin-top: 10px;">Calculate Probability</button>
+                    </div>
+                </div>
             </div>
         </main>
 
         <!-- Footer Section -->
         <footer class="footer glass-card ios-26-glass">
-            <p>All CopyRights Are Reserved By Sarthak Mathapati </p>
+            <p>Mathens Pro © 2024 • Developed by Sarthak Mathapati</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link" title="Source Code"><i class="fab fa-github"></i></a>
+                <a href="#" class="footer-link" title="Documentation"><i class="fas fa-book"></i></a>
+                <a href="#" class="footer-link" title="Share"><i class="fas fa-share-alt"></i></a>
+            </div>
         </footer>
     </div>
 
@@ -254,8 +618,1182 @@
     <div class="keyboard-hint" id="keyboard-hint" role="status" aria-live="polite"></div>
 
     <script>
-        // Enhanced Calculator Application
-        class CalculatorApp {
+        /**
+         * CanvasBackground Engine
+         * Handles high-performance background animations using HTML5 Canvas.
+         * Replaces DOM-heavy elements to ensure 60FPS performance.
+         */
+        class CanvasBackground {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                if (!this.canvas) return;
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.stars = [];
+                this.resize();
+                this.init();
+                this.animate();
+
+                // Bind resize handler for proper removal
+                this.handleResize = this.resize.bind(this);
+                window.addEventListener('resize', this.handleResize);
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            init() {
+                this.particleColor = '255, 255, 255'; // Use RGB format for flexible opacity
+
+                // Initialize particles with pre-calculated values
+                for (let i = 0; i < 80; i++) { // Slightly reduced count for mobile performance
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        size: Math.random() * 1.5 + 0.5, // Smaller, more subtle particles
+                        speedX: (Math.random() - 0.5) * 0.4,
+                        speedY: (Math.random() - 0.5) * 0.4,
+                        opacity: Math.random() * 0.3 + 0.1
+                    });
+                }
+
+                // Initialize falling stars
+                for (let i = 0; i < 15; i++) {
+                    this.stars.push(this.createStar());
+                }
+            }
+
+            createStar() {
+                return {
+                    x: Math.random() * this.canvas.width,
+                    y: -20,
+                    length: Math.random() * 20 + 10,
+                    speed: Math.random() * 10 + 5,
+                    opacity: 1
+                };
+            }
+
+            animate() {
+                const ctx = this.ctx;
+                const canvas = this.canvas;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Draw particles in a single pass where possible
+                ctx.fillStyle = `rgba(${this.particleColor}, 1)`;
+                this.particles.forEach(p => {
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+
+                    ctx.globalAlpha = p.opacity;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, 6.283); // Math.PI * 2 constant
+                    ctx.fill();
+                });
+
+                // Draw falling stars
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.lineWidth = 1;
+                this.stars.forEach((s, index) => {
+                    s.y += s.speed;
+                    s.x -= s.speed * 0.4;
+
+                    ctx.globalAlpha = s.opacity;
+                    ctx.beginPath();
+                    ctx.moveTo(s.x, s.y);
+                    ctx.lineTo(s.x + s.length * 0.4, s.y - s.length);
+                    ctx.stroke();
+
+                    if (s.y > canvas.height || s.x < -20) {
+                        this.stars[index] = this.createStar();
+                    }
+                });
+
+                ctx.globalAlpha = 1;
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+
+            /**
+             * Sets the particle color based on the current theme.
+             * @param {string} color - CSS color string.
+             */
+            setThemeColor(color) {
+                this.particleColor = color;
+            }
+
+            /**
+             * Cleans up resources and stops animation.
+             */
+            destroy() {
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
+                }
+                if (this.handleResize) {
+                    window.removeEventListener('resize', this.handleResize);
+                }
+                this.particles = [];
+                this.stars = [];
+            }
+        }
+
+        /**
+         * MatrixEngine
+         * Provides comprehensive matrix calculation logic.
+         */
+        class MatrixEngine {
+            /**
+             * Calculates the determinant of a matrix using LU decomposition (Gaussian elimination).
+             * Supports generic n x n matrices.
+             * @param {Array<Array<number>>} matrix 
+             * @returns {number}
+             */
+            static determinant(matrix) {
+                const n = matrix.length;
+                if (n === 0) return 0;
+                if (n !== matrix[0].length) return NaN; // Non-square matrix
+                if (n === 1) return matrix[0][0];
+                if (n === 2) return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+                if (n === 3) {
+                    return matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) -
+                        matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) +
+                        matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]);
+                }
+
+                // Generic n x n using Gaussian elimination
+                let det = 1;
+                const m = matrix.map(row => [...row]);
+                for (let i = 0; i < n; i++) {
+                    let pivot = i;
+                    for (let j = i + 1; j < n; j++) {
+                        if (Math.abs(m[j][i]) > Math.abs(m[pivot][i])) pivot = j;
+                    }
+                    if (Math.abs(m[pivot][i]) < 1e-12) return 0;
+                    if (pivot !== i) {
+                        [m[i], m[pivot]] = [m[pivot], m[i]];
+                        det *= -1;
+                    }
+                    det *= m[i][i];
+                    for (let j = i + 1; j < n; j++) {
+                        const factor = m[j][i] / m[i][i];
+                        for (let k = i + 1; k < n; k++) {
+                            m[j][k] -= factor * m[i][k];
+                        }
+                    }
+                }
+                return det;
+            }
+
+            /**
+             * Transposes a matrix.
+             * @param {Array<Array<number>>} matrix 
+             * @returns {Array<Array<number>>}
+             */
+            static transpose(matrix) {
+                return matrix[0].map((_, i) => matrix.map(row => row[i]));
+            }
+
+            /**
+             * Calculates the inverse of a square matrix.
+             * Supports generic sizes but optimized for 2x2 and 3x3.
+             * @param {Array<Array<number>>} matrix 
+             * @returns {Array<Array<number>>|null}
+             */
+            static inverse(matrix) {
+                const det = this.determinant(matrix);
+                if (Math.abs(det) < 1e-10) {
+                    console.warn('Matrix is singular (determinant = 0)');
+                    return null;
+                }
+
+                const n = matrix.length;
+                if (n === 2) {
+                    return [
+                        [matrix[1][1] / det, -matrix[0][1] / det],
+                        [-matrix[1][0] / det, matrix[0][0] / det]
+                    ];
+                }
+
+                if (n === 3) {
+                    const inv = [];
+                    for (let i = 0; i < 3; i++) {
+                        inv[i] = [];
+                        for (let j = 0; j < 3; j++) {
+                            const sub = [];
+                            for (let r = 0; r < 3; r++) {
+                                if (r === i) continue;
+                                const row = [];
+                                for (let c = 0; c < 3; c++) {
+                                    if (c === j) continue;
+                                    row.push(matrix[r][c]);
+                                }
+                                sub.push(row);
+                            }
+                            const cofactor = Math.pow(-1, i + j) * this.determinant(sub);
+                            inv[i][j] = cofactor / det;
+                        }
+                    }
+                    return this.transpose(inv);
+                }
+
+                return null; // Generic n > 3 inversion can be added if needed via Adjugate or LU
+            }
+        }
+
+        /**
+         * EquationSolver
+         * Solves algebraic equations up to degree 3.
+         */
+        class EquationSolver {
+            /**
+             * Solves linear equation: ax + b = 0
+             * @param {number} a 
+             * @param {number} b 
+             * @returns {string}
+             */
+            static solveLinear(a, b) {
+                if (a === 0) return b === 0 ? "Infinite solutions" : "No solution";
+                return `x = ${(-b / a).toFixed(4)}`;
+            }
+
+            /**
+             * Solves quadratic equation: ax^2 + bx + c = 0
+             * @param {number} a 
+             * @param {number} b 
+             * @param {number} c 
+             * @returns {string}
+             */
+            static solveQuadratic(a, b, c) {
+                if (a === 0) return this.solveLinear(b, c);
+                const desc = b * b - 4 * a * c;
+                if (desc > 0) {
+                    const x1 = (-b + Math.sqrt(desc)) / (2 * a);
+                    const x2 = (-b - Math.sqrt(desc)) / (2 * a);
+                    return `x₁ = ${x1.toFixed(4)}, x₂ = ${x2.toFixed(4)}`;
+                } else if (desc === 0) {
+                    const x = -b / (2 * a);
+                    return `x = ${x.toFixed(4)} (Double root)`;
+                } else {
+                    const real = -b / (2 * a);
+                    const imag = Math.sqrt(-desc) / (2 * a);
+                    return `x₁ = ${real.toFixed(4)} + ${imag.toFixed(4)}i, x₂ = ${real.toFixed(4)} - ${imag.toFixed(4)}i`;
+                }
+            }
+
+            /**
+             * Solves cubic equation: ax^3 + bx^2 + cx + d = 0
+             * Using Cardano's method for efficiency.
+             */
+            static solveCubic(a, b, c, d) {
+                if (a === 0) return this.solveQuadratic(b, c, d);
+
+                // Normalized form: x^3 + Ax^2 + Bx + C = 0
+                const A = b / a;
+                const B = c / a;
+                const C = d / a;
+
+                const Q = (3 * B - Math.pow(A, 2)) / 9;
+                const R = (9 * A * B - 27 * C - 2 * Math.pow(A, 3)) / 54;
+                const D = Math.pow(Q, 3) + Math.pow(R, 2);
+
+                let roots = [];
+                if (D > 0) {
+                    const S = Math.sign(R + Math.sqrt(D)) * Math.pow(Math.abs(R + Math.sqrt(D)), 1 / 3);
+                    const T = Math.sign(R - Math.sqrt(D)) * Math.pow(Math.abs(R - Math.sqrt(D)), 1 / 3);
+
+                    const x1 = -A / 3 + (S + T);
+                    const realPart = -A / 3 - (S + T) / 2;
+                    const imagPart = Math.sqrt(3) * (S - T) / 2;
+
+                    roots = [
+                        `x₁ = ${x1.toFixed(4)}`,
+                        `x₂ = ${realPart.toFixed(4)} + ${Math.abs(imagPart).toFixed(4)}i`,
+                        `x₃ = ${realPart.toFixed(4)} - ${Math.abs(imagPart).toFixed(4)}i`
+                    ];
+                } else if (D === 0) {
+                    const S = Math.sign(R) * Math.pow(Math.abs(R), 1 / 3);
+                    const x1 = -A / 3 + 2 * S;
+                    const x2 = -A / 3 - S;
+                    roots = [`x₁ = ${x1.toFixed(4)}`, `x₂ = ${x2.toFixed(4)} (double)`];
+                } else {
+                    const th = Math.acos(R / Math.sqrt(-Math.pow(Q, 3)));
+                    const x1 = 2 * Math.sqrt(-Q) * Math.cos(th / 3) - A / 3;
+                    const x2 = 2 * Math.sqrt(-Q) * Math.cos((th + 2 * Math.PI) / 3) - A / 3;
+                    const x3 = 2 * Math.sqrt(-Q) * Math.cos((th + 4 * Math.PI) / 3) - A / 3;
+                    roots = [`x₁ = ${x1.toFixed(4)}`, `x₂ = ${x2.toFixed(4)}`, `x₃ = ${x3.toFixed(4)}`];
+                }
+                return roots.join(', ');
+            }
+        }
+
+        /**
+         * GraphingEngine
+         * Renders mathematical functions to a canvas.
+         */
+        class GraphingEngine {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.width = canvas.width;
+                this.height = canvas.height;
+                this.zoom = 40;
+                this.offsetX = canvas.width / 2;
+                this.offsetY = canvas.height / 2;
+
+                // Interaction state
+                this.isDragging = false;
+                this.lastY = 0;
+                this.compiledFunc = null;
+
+                this.setupInteractions();
+            }
+
+            setupInteractions() {
+                this.canvas.addEventListener('mousedown', (e) => {
+                    this.isDragging = true;
+                    this.lastX = e.offsetX;
+                    this.lastY = e.offsetY;
+                });
+                this.canvas.addEventListener('mousemove', (e) => {
+                    if (this.isDragging) {
+                        this.offsetX += e.offsetX - this.lastX;
+                        this.offsetY += e.offsetY - this.lastY;
+                        this.lastX = e.offsetX;
+                        this.lastY = e.offsetY;
+                        this.draw();
+                    }
+                });
+                this.canvas.addEventListener('mouseup', () => this.isDragging = false);
+                this.canvas.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    const scale = e.deltaY > 0 ? 0.9 : 1.1;
+                    this.zoom *= scale;
+                    this.draw();
+                });
+            }
+
+            drawAxes() {
+                this.ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                this.ctx.lineWidth = 1;
+
+                // Vertical grid lines
+                for (let x = this.offsetX % this.zoom; x < this.width; x += this.zoom) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x, 0);
+                    this.ctx.lineTo(x, this.height);
+                    this.ctx.stroke();
+                }
+
+                // Horizontal grid lines
+                for (let y = this.offsetY % this.zoom; y < this.height; y += this.zoom) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(0, y);
+                    this.ctx.lineTo(this.width, y);
+                    this.ctx.stroke();
+                }
+
+                // Main axes
+                this.ctx.strokeStyle = '#0066CC';
+                this.ctx.lineWidth = 2;
+                this.ctx.beginPath();
+                this.ctx.moveTo(0, this.offsetY);
+                this.ctx.lineTo(this.width, this.offsetY);
+                this.ctx.moveTo(this.offsetX, 0);
+                this.ctx.lineTo(this.offsetX, this.height);
+                this.ctx.stroke();
+            }
+
+            /**
+             * Compiles a mathematical function string into a reusable JS function.
+             * @param {string} func 
+             */
+            /**
+             * Compiles a mathematical function string into a reusable JS function.
+             * Uses a custom tokenizer and Shunting-yard algorithm to avoid new Function().
+             * @param {string} func 
+             */
+            compile(func) {
+                try {
+                    const tokens = this.tokenize(func.toLowerCase());
+                    const rpn = this.shuntingYard(tokens);
+
+                    this.compiledFunc = (x) => {
+                        return this.evaluateRPN(rpn, x);
+                    };
+                    return true;
+                } catch (e) {
+                    this.compiledFunc = null;
+                    return false;
+                }
+            }
+
+            tokenize(expression) {
+                const tokens = [];
+                // improved regex to capture scientific notation, numbers, words, operators
+                const regex = /([0-9.]+(?:e[+-]?[0-9]+)?)|([a-z]+)|(\(|\)|\^|\*|\/|\+|\-|x)/g;
+                let match;
+
+                let lastToken = null;
+
+                while ((match = regex.exec(expression)) !== null) {
+                    let token = match[0];
+
+                    // Implicit multiplication handling
+                    // If current token is a variable (x), function (sin), or open paren '(',
+                    // and previous token was a number, ')' or var/constant, insert '*'
+                    if (lastToken) {
+                        const isCurrentValue = token === 'x' || token === '(' || /^[a-z]+$/.test(token); // e.g. x, sin, (
+                        const isLastValue = !isNaN(parseFloat(lastToken)) || lastToken === ')' || lastToken === 'x' || ['pi', 'e'].includes(lastToken);
+
+                        if (isLastValue && isCurrentValue) {
+                            tokens.push('*');
+                        }
+                    }
+
+                    tokens.push(token);
+                    lastToken = token;
+                }
+                return tokens;
+            }
+
+            shuntingYard(tokens) {
+                const outputQueue = [];
+                const operatorStack = [];
+                const precedence = { '^': 4, '*': 3, '/': 3, '+': 2, '-': 2 };
+                const associativity = { '^': 'Right', '*': 'Left', '/': 'Left', '+': 'Left', '-': 'Left' };
+
+                tokens.forEach(token => {
+                    if (!isNaN(parseFloat(token))) {
+                        outputQueue.push(parseFloat(token));
+                    } else if (token === 'x') {
+                        outputQueue.push('x');
+                    } else if (['sin', 'cos', 'tan', 'log', 'ln', 'sqrt', 'abs', 'pi', 'e'].includes(token)) {
+                        if (token === 'pi') outputQueue.push(Math.PI);
+                        else if (token === 'e') outputQueue.push(Math.E);
+                        else operatorStack.push(token);
+                    } else if (token === '(') {
+                        operatorStack.push(token);
+                    } else if (token === ')') {
+                        while (operatorStack.length > 0 && operatorStack[operatorStack.length - 1] !== '(') {
+                            outputQueue.push(operatorStack.pop());
+                        }
+                        operatorStack.pop(); // Remove '('
+                    } else if (precedence[token]) {
+                        while (operatorStack.length > 0 && precedence[operatorStack[operatorStack.length - 1]] &&
+                            ((associativity[token] === 'Left' && precedence[token] <= precedence[operatorStack[operatorStack.length - 1]]) ||
+                                (associativity[token] === 'Right' && precedence[token] < precedence[operatorStack[operatorStack.length - 1]]))) {
+                            outputQueue.push(operatorStack.pop());
+                        }
+                        operatorStack.push(token);
+                    }
+                });
+
+                while (operatorStack.length > 0) {
+                    outputQueue.push(operatorStack.pop());
+                }
+                return outputQueue;
+            }
+
+            evaluateRPN(rpn, x) {
+                const stack = [];
+                rpn.forEach(token => {
+                    if (typeof token === 'number') {
+                        stack.push(token);
+                    } else if (token === 'x') {
+                        stack.push(x);
+                    } else {
+                        switch (token) {
+                            case '+': stack.push(stack.pop() + stack.pop()); break;
+                            case '-': {
+                                const b = stack.pop();
+                                const a = stack.pop();
+                                stack.push(a - b);
+                                break;
+                            }
+                            case '*': stack.push(stack.pop() * stack.pop()); break;
+                            case '/': {
+                                const b = stack.pop();
+                                const a = stack.pop();
+                                stack.push(a / b);
+                                break;
+                            }
+                            case '^': {
+                                const b = stack.pop();
+                                const a = stack.pop();
+                                stack.push(Math.pow(a, b));
+                                break;
+                            }
+                            case 'sin': stack.push(Math.sin(stack.pop())); break;
+                            case 'cos': stack.push(Math.cos(stack.pop())); break;
+                            case 'tan': stack.push(Math.tan(stack.pop())); break;
+                            case 'log': stack.push(Math.log10(stack.pop())); break;
+                            case 'ln': stack.push(Math.log(stack.pop())); break;
+                            case 'sqrt': stack.push(Math.sqrt(stack.pop())); break;
+                            case 'abs': stack.push(Math.abs(stack.pop())); break;
+                        }
+                    }
+                });
+                return stack[0];
+            }
+
+            /**
+             * Evaluates the pre-compiled function.
+             * @param {number} x - Current x value
+             * @returns {number}
+             */
+            evaluate(x) {
+                if (!this.compiledFunc) return NaN;
+                try {
+                    return this.compiledFunc(x);
+                } catch (e) {
+                    return NaN;
+                }
+            }
+
+            plot(func) {
+                if (this.compile(func)) {
+                    this.currentFunc = func;
+                    this.draw();
+                }
+            }
+
+            draw() {
+                this.ctx.clearRect(0, 0, this.width, this.height);
+                this.drawAxes();
+                if (!this.currentFunc) return;
+
+                this.ctx.strokeStyle = '#FF3B30';
+                this.ctx.lineWidth = 2;
+                this.ctx.beginPath();
+
+                let first = true;
+                const step = 1 / this.zoom; // Quality optimization
+
+                for (let px = 0; px < this.width; px++) {
+                    const x = (px - this.offsetX) / this.zoom;
+                    const y = this.evaluate(x);
+
+                    if (!isNaN(y)) {
+                        const py = this.offsetY - (y * this.zoom);
+                        // Prevent extreme lines when y is out of canvas bounds
+                        if (py < -this.height || py > this.height * 2) {
+                            first = true;
+                            continue;
+                        }
+
+                        if (first) {
+                            this.ctx.moveTo(px, py);
+                            first = false;
+                        } else {
+                            this.ctx.lineTo(px, py);
+                        }
+                    } else {
+                        first = true;
+                    }
+                }
+                this.ctx.stroke();
+            }
+        }
+
+        /**
+         * GeometryEngine
+         * Handles area, volume, and perimeter calculations.
+         */
+        class GeometryEngine {
+            static circle(r) {
+                return {
+                    area: Math.PI * r * r,
+                    perimeter: 2 * Math.PI * r
+                };
+            }
+            static rectangle(w, h) {
+                return { area: w * h, perimeter: 2 * (w + h) };
+            }
+            static triangle(b, h) {
+                return { area: 0.5 * b * h };
+            }
+            static sphere(r) {
+                return {
+                    volume: (4 / 3) * Math.PI * Math.pow(r, 3),
+                    surface: 4 * Math.PI * r * r
+                };
+            }
+            static cylinder(r, h) {
+                return {
+                    volume: Math.PI * r * r * h,
+                    surface: 2 * Math.PI * r * (r + h)
+                };
+            }
+        }
+
+        /**
+         * VectorEngine
+         * Provides logic for 3D vector mathematics.
+         */
+        class VectorEngine {
+            /**
+             * Adds two 3D vectors.
+             * @param {Array<number>} v1 - First vector [x, y, z]
+             * @param {Array<number>} v2 - Second vector [x, y, z]
+             * @returns {Array<number>}
+             */
+            static add(v1, v2) {
+                return [v1[0] + v2[0], v1[1] + v2[1], v1[2] + v2[2]];
+            }
+
+            /**
+             * Calculates the dot product of two vectors.
+             * @param {Array<number>} v1 
+             * @param {Array<number>} v2 
+             * @returns {number}
+             */
+            static dotProduct(v1, v2) {
+                return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
+            }
+
+            /**
+             * Calculates the cross product of two 3D vectors.
+             * @param {Array<number>} v1 
+             * @param {Array<number>} v2 
+             * @returns {Array<number>}
+             */
+            static crossProduct(v1, v2) {
+                return [
+                    v1[1] * v2[2] - v1[2] * v2[1],
+                    v1[2] * v2[0] - v1[0] * v2[2],
+                    v1[0] * v2[1] - v1[1] * v2[0]
+                ];
+            }
+
+            /**
+             * Calculates the magnitude of a vector.
+             * @param {Array<number>} v 
+             * @returns {number}
+             */
+            static magnitude(v) {
+                return Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+            }
+        }
+
+        /**
+         * MathTutor
+         * Provides educational math facts and formulas.
+         */
+        class MathTutor {
+            constructor() {
+                this.facts = [
+                    "Euler's Identity: e^(i*pi) + 1 = 0 is considered the most beautiful formula in math.",
+                    "A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.",
+                    "The Golden Ratio (phi) is approximately 1.618 and appears frequently in nature and art.",
+                    "The Fibonacci sequence starts with 0 and 1, and each subsequent number is the sum of the two preceding ones.",
+                    "Calculus was independently developed by Isaac Newton and Gottfried Wilhelm Leibniz in the 17th century.",
+                    "The Pythagorean Theorem states that a^2 + b^2 = c^2 for a right-angled triangle.",
+                    "Zero was first used as a number by ancient Indian mathematicians around the 5th century.",
+                    "Pi (π) is an irrational number, meaning its decimal representation never ends or repeats."
+                ];
+            }
+
+            /**
+             * Returns a random math fact.
+             * @returns {string}
+             */
+            getRandomFact() {
+                return this.facts[Math.floor(Math.random() * this.facts.length)];
+            }
+        }
+
+        /**
+         * LogManager
+         * Advanced logging and diagnostic system.
+         */
+        class LogManager {
+            constructor() {
+                this.logs = [];
+                this.maxLogs = 100;
+            }
+
+            log(message, level = 'INFO') {
+                const entry = {
+                    timestamp: new Date().toLocaleTimeString(),
+                    message,
+                    level
+                };
+                this.logs.unshift(entry);
+                if (this.logs.length > this.maxLogs) {
+                    this.logs.pop();
+                }
+                console.log(`[${level}] ${entry.timestamp}: ${message}`);
+
+                // Trigger UI update if possible
+                if (window.calculatorApp && window.calculatorApp.state.currentMode === 'diagnostics') {
+                    window.calculatorApp.renderLogs();
+                }
+            }
+
+            clear() {
+                this.logs = [];
+            }
+        }
+
+        /**
+         * ScientificEngine
+         * Advanced mathematical algorithms.
+         */
+        class ScientificEngine {
+            static gamma(z) {
+                const g = 7;
+                const p = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+                if (z < 0.5) return Math.PI / (Math.sin(Math.PI * z) * this.gamma(1 - z));
+                z -= 1;
+                let x = p[0];
+                for (let i = 1; i < g + 2; i++) x += p[i] / (z + i);
+                const t = z + g + 0.5;
+                return Math.sqrt(2 * Math.PI) * Math.pow(t, (z + 0.5)) * Math.exp(-t) * x;
+            }
+        }
+
+        /**
+         * ProbabilityEngine
+         * Provides statistics and likelihood calculations.
+         */
+        class ProbabilityEngine {
+            /**
+             * Calculates the probability of k successes in n trials.
+             * @param {number} n - Number of trials.
+             * @param {number} k - Number of successes.
+             * @param {number} p - Probability of success.
+             * @returns {number}
+             */
+            static binomial(n, k, p) {
+                const comb = this.combinations(n, k);
+                return comb * Math.pow(p, k) * Math.pow(1 - p, n - k);
+            }
+
+            /**
+             * Calculates combinations (nCr).
+             * @param {number} n 
+             * @param {number} r 
+             * @returns {number}
+             */
+            static combinations(n, r) {
+                if (r < 0 || r > n) return 0;
+                if (r === 0 || r === n) return 1;
+                if (r > n / 2) r = n - r;
+                let res = 1;
+                for (let i = 1; i <= r; i++) {
+                    res = res * (n - i + 1) / i;
+                }
+                return res;
+            }
+
+            /**
+             * Calculates permutations (nPr).
+             * @param {number} n 
+             * @param {number} r 
+             * @returns {number}
+             */
+            static permutations(n, r) {
+                if (r < 0 || r > n) return 0;
+                let res = 1;
+                for (let i = 0; i < r; i++) {
+                    res *= (n - i);
+                }
+                return res;
+            }
+        }
+
+        /**
+         * BitwiseEngine
+         * Specialized logic for low-level integer operations.
+         */
+        class BitwiseEngine {
+            /**
+             * Performs bitwise AND.
+             * @param {number} a 
+             * @param {number} b 
+             * @returns {number}
+             */
+            static and(a, b) { return a & b; }
+
+            /**
+             * Performs bitwise OR.
+             * @param {number} a 
+             * @param {number} b 
+             * @returns {number}
+             */
+            static or(a, b) { return a | b; }
+
+            /**
+             * Performs bitwise XOR.
+             * @param {number} a 
+             * @param {number} b 
+             * @returns {number}
+             */
+            static xor(a, b) { return a ^ b; }
+
+            /**
+             * Performs bitwise NOT.
+             * @param {number} a 
+             * @returns {number}
+             */
+            static not(a) { return ~a; }
+
+            /**
+             * Left shift.
+             * @param {number} a 
+             * @param {number} b 
+             * @returns {number}
+             */
+            static leftShift(a, b) { return a << b; }
+        }
+
+        /**
+         * HistoryManager
+         * Encapsulates logic for recording and persisting calculation results.
+         */
+        class HistoryManager {
+            constructor(app) {
+                this.app = app;
+                this.maxHistory = 50;
+            }
+
+            /**
+             * Adds a new entry to the calculation history.
+             * @param {string} problem - The math problem string.
+             * @param {string} result - The calculated result.
+             */
+            add(problem, result) {
+                const entry = {
+                    problem,
+                    result,
+                    timestamp: new Date().toLocaleTimeString(),
+                    id: Date.now()
+                };
+
+                this.app.state.calculationHistory.unshift(entry);
+                if (this.app.state.calculationHistory.length > this.maxHistory) {
+                    this.app.state.calculationHistory.pop();
+                }
+
+                this.app.saveHistory();
+                this.app.updateHistoryDisplay();
+                this.app.updateDashboard();
+            }
+
+            /**
+             * Clears the entire history from state and storage.
+             */
+            clear() {
+                this.app.state.calculationHistory = [];
+                this.app.saveHistory();
+                this.app.updateHistoryDisplay();
+                this.app.updateDashboard();
+            }
+        }
+
+        /**
+         * UnitConverterEngine
+         * Specialized logic for multi-category unit transformations.
+         */
+        class UnitConverterEngine {
+            constructor(conversions) {
+                this.conversions = conversions;
+            }
+
+            /**
+             * Converts a value between two units in a specific category.
+             * @param {number} value - Magnitude to convert.
+             * @param {string} category - e.g., 'length', 'weight'.
+             * @param {string} from - Source unit.
+             * @param {string} to - Destination unit.
+             * @returns {number}
+             */
+            convert(value, category, from, to) {
+                if (!this.conversions[category]) return NaN;
+                const cat = this.conversions[category];
+
+                if (category === 'temperature') {
+                    const celsius = cat[from].reverse(value);
+                    return cat[to].convert(celsius);
+                }
+
+                const base = value / cat[from];
+                return base * cat[to];
+            }
+        }
+
+        /**
+         * AdvancedFinanceEngine
+         * Comprehensive financial mathematics including PV, FV, and Amortization.
+         */
+        class AdvancedFinanceEngine {
+            /**
+             * Calculates Future Value of an investment.
+             * @param {number} pv - Present Value.
+             * @param {number} r - Annual interest rate (0-1).
+             * @param {number} n - Number of periods.
+             * @returns {number}
+             */
+            static futureValue(pv, r, n) {
+                return pv * Math.pow(1 + r, n);
+            }
+
+            /**
+             * Calculates Compound Interest.
+             * @param {number} p - Principal.
+             * @param {number} r - Rate.
+             * @param {number} t - Time.
+             * @param {number} n - Compounding frequency.
+             * @returns {number}
+             */
+            static compoundInterest(p, r, t, n) {
+                return p * Math.pow(1 + r / n, n * t);
+            }
+
+            /**
+             * Calculates Loan Payment (Amortization).
+             * @param {number} p - Principal.
+             * @param {number} r - Monthly interest rate.
+             * @param {number} n - Total number of months.
+             * @returns {number}
+             */
+            static loanPayment(p, r, n) {
+                if (r === 0) return p / n;
+                return p * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+            }
+        }
+
+        /**
+         * UserInterfaceManager
+         * Formalizes the UI state transitions and theme applications.
+         */
+        class UserInterfaceManager {
+            constructor(app) {
+                this.app = app;
+            }
+
+            /**
+             * Applies a smooth transition between app sections.
+             * @param {HTMLElement} from 
+             * @param {HTMLElement} to 
+             */
+            transition(from, to) {
+                if (from) {
+                    from.classList.remove('active-panel');
+                    setTimeout(() => from.style.display = 'none', 300);
+                }
+                if (to) {
+                    to.style.display = 'block';
+                    setTimeout(() => to.classList.add('active-panel'), 50);
+                }
+            }
+
+            /**
+             * Formats numbers for display with scientific notation support.
+             */
+            formatNumber(num) {
+                if (num === 'Error' || num === 'Infinity' || num === '-Infinity' || num === 'NaN') {
+                    return num;
+                }
+
+                const number = parseFloat(num);
+                if (isNaN(number)) return 'Error';
+                if (!isFinite(number)) return number > 0 ? 'Infinity' : '-Infinity';
+
+                if (Math.abs(number) > this.app.config.scientificNotationThreshold ||
+                    (Math.abs(number) < this.app.config.scientificNotationSmallThreshold && number !== 0)) {
+                    return number.toExponential(6).replace('e+', 'e').replace('e-', 'e⁻');
+                }
+
+                let formatted;
+                if (Number.isInteger(number)) {
+                    formatted = number.toString();
+                } else {
+                    formatted = parseFloat(number.toPrecision(12)).toString();
+
+                    if (formatted.includes('.') && formatted.split('.')[1].length > 8) {
+                        formatted = number.toFixed(8).replace(/\.?0+$/, '');
+                    }
+                }
+
+                return formatted;
+            }
+
+            /**
+             * Updates the main display elements.
+             */
+            updateDisplay(state, elements) {
+                elements.result.textContent = this.formatNumber(state.currentInput);
+                elements.result.classList.remove('error', 'success');
+
+                if (state.operation !== null) {
+                    elements.calculation.textContent = `${this.formatNumber(state.previousInput)} ${this.app.getOperationSymbol(state.operation)}`;
+                } else {
+                    elements.calculation.textContent = '';
+                }
+
+                if (state.hasMemory) {
+                    elements.memoryIndicator.classList.add('active');
+                } else {
+                    elements.memoryIndicator.classList.remove('active');
+                }
+            }
+
+            showError(elements, message) {
+                elements.result.textContent = message;
+                elements.result.classList.add('error');
+            }
+
+            injectAriaLabels() {
+                // Main Num Buttons
+                document.querySelectorAll('.btn-num').forEach(btn => {
+                    const num = btn.getAttribute('data-number') || btn.textContent;
+                    btn.setAttribute('aria-label', `Number ${num}`);
+                    btn.setAttribute('role', 'button');
+                });
+
+                // Operations
+                document.querySelectorAll('.btn-op').forEach(btn => {
+                    const op = btn.getAttribute('data-operation') || btn.textContent;
+                    btn.setAttribute('aria-label', `Operation ${op}`);
+                    btn.setAttribute('role', 'button');
+                });
+
+                // Actions
+                document.querySelectorAll('.btn-action').forEach(btn => {
+                    const action = btn.getAttribute('data-action');
+                    btn.setAttribute('aria-label', `Action ${action}`);
+                    btn.setAttribute('role', 'button');
+                });
+
+                // Results and calculation screen
+                const result = document.getElementById('result');
+                if (result) {
+                    result.setAttribute('role', 'status');
+                    result.setAttribute('aria-live', 'polite');
+                    result.setAttribute('aria-label', 'Calculation Result');
+                }
+            }
+        }
+
+        /**
+         * AdvancedConverterManager
+         * Formalized logic for unit conversion processing.
+         */
+        class AdvancedConverterManager {
+            constructor(app) {
+                this.app = app;
+            }
+
+            /**
+             * Processes unit conversion requests.
+             * @param {string} category 
+             * @param {string} from 
+             * @param {string} to 
+             * @param {number} value 
+             */
+            process(category, from, to, value) {
+                return this.app.unitEngine.convert(value, category, from, to);
+            }
+        }
+
+        /**
+         * FinancialManager
+         * Logic for specialized financial calculations.
+         */
+        class FinancialManager {
+            constructor(app) {
+                this.app = app;
+            }
+
+            /**
+             * Calculates various financial metrics based on type.
+             * @param {string} type - 'investment', 'loan', 'savings'.
+             * @param {number} p1 - First parameter.
+             * @param {number} p2 - Second parameter.
+             * @param {number} p3 - Third parameter.
+             */
+            calculate(type, p1, p2, p3) {
+                let result = 0;
+                if (type === 'interest') {
+                    result = AdvancedFinanceEngine.compoundInterest(p1, p2 / 100, p3, 12);
+                } else if (type === 'loan') {
+                    result = AdvancedFinanceEngine.loanPayment(p1, (p2 / 100) / 12, p3 * 12);
+                } else if (type === 'future_value') {
+                    result = AdvancedFinanceEngine.futureValue(p1, p2 / 100, p3);
+                }
+                return result;
+            }
+        }
+
+        /**
+         * GestureManager
+         * Handles swipe and touch gestures for premium navigation.
+         */
+        class GestureManager {
+            constructor(app) {
+                this.app = app;
+                this.touchStartX = 0;
+                this.touchStartY = 0;
+                this.touchEndX = 0;
+                this.touchEndY = 0;
+                this.minSwipeDistance = 100;
+
+                this.init();
+            }
+
+            init() {
+                document.addEventListener('touchstart', (e) => {
+                    this.touchStartX = e.changedTouches[0].screenX;
+                    this.touchStartY = e.changedTouches[0].screenY;
+                }, { passive: true });
+
+                document.addEventListener('touchend', (e) => {
+                    this.touchEndX = e.changedTouches[0].screenX;
+                    this.touchEndY = e.changedTouches[0].screenY;
+                    this.handleGesture();
+                }, { passive: true });
+            }
+
+            handleGesture() {
+                const diffX = this.touchEndX - this.touchStartX;
+                const diffY = this.touchEndY - this.touchStartY;
+
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    // Horizontal swipe
+                    if (Math.abs(diffX) > this.minSwipeDistance) {
+                        if (diffX > 0) this.onSwipeRight();
+                        else this.onSwipeLeft();
+                    }
+                }
+            }
+
+            onSwipeLeft() {
+                // Swipe left to open history if it's closed
+                if (!this.app.elements.historyPanel.classList.contains('active')) {
+                    this.app.toggleHistory();
+                }
+            }
+
+            onSwipeRight() {
+                // Swipe right to close history
+                if (this.app.elements.historyPanel.classList.contains('active')) {
+                    this.app.toggleHistory();
+                }
+            }
+        }
+
+        /**
+         * StateManager
+         * Manages the global state of the application.
+         */
+        class StateManager {
             constructor() {
                 this.state = {
                     currentInput: '0',
@@ -270,7 +1808,82 @@
                     hasMemory: false,
                     rgbEffects: true
                 };
-                
+            }
+
+            get(key) { return this.state[key]; }
+            set(key, value) { this.state[key] = value; }
+            update(updates) { Object.assign(this.state, updates); }
+        }
+
+        /**
+         * EventManager
+         * Centralizes event listening and delegation.
+         */
+        class EventManager {
+            constructor(app) {
+                this.app = app;
+                this.listeners = new Map();
+            }
+
+            addListener(element, type, handler, options = {}) {
+                if (!element) return;
+                element.addEventListener(type, handler, options);
+                const key = `${type}_${Math.random().toString(36).substr(2, 9)}`;
+                this.listeners.set(key, { element, type, handler });
+                return key;
+            }
+
+            cleanup() {
+                this.listeners.forEach(({ element, type, handler }) => {
+                    element.removeEventListener(type, handler);
+                });
+                this.listeners.clear();
+            }
+        }
+
+        /**
+         * ThemeManager
+         * Manages complex color palettes and glass effects.
+         */
+        class ThemeManager {
+            static themes = {
+                default: {
+                    primary: '#007AFF',
+                    glow: 'rgba(0, 122, 255, 0.5)',
+                    bg: 'linear-gradient(135deg, #0f172a 0%, #020617 100%)'
+                },
+                ice: {
+                    primary: '#A5F3FC',
+                    glow: 'rgba(165, 243, 252, 0.5)',
+                    bg: 'linear-gradient(135deg, #083344 0%, #020617 100%)'
+                },
+                amethyst: {
+                    primary: '#D8B4FE',
+                    glow: 'rgba(216, 180, 254, 0.5)',
+                    bg: 'linear-gradient(135deg, #581c87 0%, #020617 100%)'
+                },
+                emerald: {
+                    primary: '#6EE7B7',
+                    glow: 'rgba(110, 231, 183, 0.5)',
+                    bg: 'linear-gradient(135deg, #064e3b 0%, #020617 100%)'
+                }
+            };
+
+            static apply(themeName) {
+                const theme = this.themes[themeName] || this.themes.default;
+                const root = document.documentElement;
+                root.style.setProperty('--primary', theme.primary);
+                root.style.setProperty('--glow-primary', theme.glow);
+                document.body.style.background = theme.bg;
+            }
+        }
+
+        // Enhanced Calculator Application
+        class CalculatorApp {
+            constructor() {
+                this.stateManager = new StateManager();
+                // Proxy state is configured in init()
+
                 this.elements = {
                     calculation: document.getElementById('calculation'),
                     result: document.getElementById('result'),
@@ -285,6 +1898,21 @@
                     advancedCalculator: document.getElementById('advanced-calculator'),
                     currencyConverter: document.getElementById('currency-converter'),
                     unitConverter: document.getElementById('unit-converter'),
+                    financialCalculator: document.getElementById('financial-calculator'),
+                    financeType: document.getElementById('finance-type'),
+                    financeInputs: {
+                        1: document.getElementById('finance-input-1'),
+                        2: document.getElementById('finance-input-2'),
+                        3: document.getElementById('finance-input-3'),
+                        labels: {
+                            1: document.getElementById('finance-label-1'),
+                            2: document.getElementById('finance-label-2'),
+                            3: document.getElementById('finance-label-3')
+                        }
+                    },
+                    financeResultDisplay: document.getElementById('finance-result-display'),
+                    financeMainResult: document.getElementById('finance-main-result'),
+                    calculateFinanceBtn: document.getElementById('calculate-finance'),
                     fromCurrency: document.getElementById('from-currency'),
                     toCurrency: document.getElementById('to-currency'),
                     fromAmount: document.getElementById('from-amount'),
@@ -304,15 +1932,71 @@
                     loadingScreen: document.getElementById('loading-screen'),
                     progressFill: document.getElementById('progress-fill'),
                     loadingPercentage: document.getElementById('loading-percentage'),
-                    loadingHint: document.getElementById('loading-hint')
+                    loadingHint: document.getElementById('loading-hint'),
+                    dashboardSection: document.getElementById('dashboard-section'),
+                    settingsSection: document.getElementById('settings-section'),
+                    dashCalcCount: document.getElementById('dash-calc-count'),
+                    dashUptime: document.getElementById('dash-uptime'),
+                    settingGlassTheme: document.getElementById('setting-glass-theme'),
+                    settingFont: document.getElementById('setting-font'),
+                    settingHighContrast: document.getElementById('setting-high-contrast'),
+                    resetAllBtn: document.getElementById('reset-all-settings'),
+
+                    // New Modes Elements
+                    matrixCalculator: document.getElementById('matrix-calculator'),
+                    matrixSize: document.getElementById('matrix-size'),
+                    matrixAGrid: document.getElementById('matrix-a-grid'),
+                    matrixResultDisplay: document.getElementById('matrix-result-display'),
+                    matrixResultGrid: document.getElementById('matrix-result-grid'),
+
+                    equationSolver: document.getElementById('equation-solver'),
+                    equationType: document.getElementById('equation-type'),
+                    eqInputsContainer: document.getElementById('eq-inputs-container'),
+                    eqResult: document.getElementById('eq-result'),
+                    eqResultText: document.getElementById('eq-result-text'),
+                    solveEquationBtn: document.getElementById('solve-equation'),
+
+                    geometricPanel: document.getElementById('geometric-panel'),
+                    geoCards: document.querySelectorAll('.geo-card'),
+                    geoInputContainer: document.getElementById('geo-input-container'),
+
+                    graphingPanel: document.getElementById('graphing-panel'),
+                    graphCanvas: document.getElementById('graph-canvas'),
+                    graphFunction: document.getElementById('graph-function'),
+                    plotGraphBtn: document.getElementById('plot-graph'),
+                    clearGraphBtn: document.getElementById('clear-graph'),
+
+                    bgCanvas: document.getElementById('bgCanvas'),
+
+                    // Vector Panel Elements
+                    vectorPanel: document.getElementById('vector-panel'),
+                    vectorOp: document.getElementById('vector-op'),
+                    vectorInputs: document.getElementById('vector-inputs'),
+                    calculateVectorBtn: document.getElementById('calculate-vector'),
+
+                    // Bitwise Panel Elements
+                    bitwisePanel: document.getElementById('bitwise-panel'),
+                    bitwiseOp: document.getElementById('bitwise-op'),
+                    calculateBitwiseBtn: document.getElementById('calculate-bitwise'),
+
+                    // Probability Panel Elements
+                    probabilityPanel: document.getElementById('probability-panel'),
+                    probabilityOp: document.getElementById('probability-op'),
+                    calculateProbBtn: document.getElementById('calculate-prob'),
+
+                    // Diagnostics Panel Elements
+                    diagnosticsPanel: document.getElementById('diagnostics-panel'),
+                    logContainer: document.getElementById('log-container'),
+                    clearLogsBtn: document.getElementById('clear-logs')
                 };
-                
+
                 this.config = {
                     maxInputLength: 15,
                     scientificNotationThreshold: 1e10,
-                    scientificNotationSmallThreshold: 1e-6
+                    scientificNotationSmallThreshold: 1e-6,
+                    startTime: Date.now()
                 };
-                
+
                 this.exchangeRates = {
                     USD: 1,
                     EUR: 0.92,
@@ -320,7 +2004,7 @@
                     INR: 83.25,
                     JPY: 148.50
                 };
-                
+
                 this.unitConversions = {
                     length: {
                         meters: 1,
@@ -341,7 +2025,7 @@
                     },
                     temperature: {
                         celsius: { convert: (val) => val, reverse: (val) => val },
-                        fahrenheit: { convert: (val) => (val * 9/5) + 32, reverse: (val) => (val - 32) * 5/9 },
+                        fahrenheit: { convert: (val) => (val * 9 / 5) + 32, reverse: (val) => (val - 32) * 5 / 9 },
                         kelvin: { convert: (val) => val + 273.15, reverse: (val) => val - 273.15 }
                     },
                     area: {
@@ -360,7 +2044,7 @@
                         'cubic feet': 0.0353147
                     }
                 };
-                
+
                 this.keyboardShortcuts = {
                     '0': '0', '1': '1', '2': '2', '3': '3', '4': '4',
                     '5': '5', '6': '6', '7': '7', '8': '8', '9': '9',
@@ -369,14 +2053,45 @@
                     'Escape': 'clear', 'Delete': 'clear-entry',
                     'Backspace': 'backspace', '%': 'percent'
                 };
-                
+
                 this.audioContext = null;
                 this.rgbInterval = null;
                 this.keyboardHintTimeout = null;
                 this.isMobile = window.innerWidth <= 768;
                 this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                // Initialize Modular Managers & Engines
+                this.eventManager = new EventManager(this);
+                this.uiManager = new UserInterfaceManager(this);
+
+                // Direct reference to synchronised state
+                Object.defineProperty(this, 'state', {
+                    get: () => this.stateManager.state,
+                    set: (newState) => { console.warn('Do not set state directly, use StateManager'); }
+                });
+
+                this.bgEngine = new CanvasBackground('bgCanvas');
+                this.graphingEngine = new GraphingEngine(this.elements.graphCanvas);
+                this.gestureManager = new GestureManager(this);
+                this.logger = new LogManager();
+                this.tutor = new MathTutor();
+                this.matrixEngine = new MatrixEngine();
+                this.equationSolver = new EquationSolver();
+                this.geometryEngine = new GeometryEngine();
+                this.vectorEngine = VectorEngine; // Static methods
+                this.scientificEngine = ScientificEngine; // Static methods
+                this.probabilityEngine = ProbabilityEngine; // Static methods
+                this.bitwiseEngine = BitwiseEngine; // Static methods
+
+                // Initialize Domain Managers
+                this.historyManager = new HistoryManager(this);
+                this.financialManager = new FinancialManager(this);
+                this.converterManager = new AdvancedConverterManager(this);
+                this.unitEngine = new UnitConverterEngine(this.unitConversions);
+
+                this.logger.log('Calculator Engine Fully Loaded (Modular Architecture)', 'INFO');
             }
-            
+
             // Initialize the application
             init() {
                 this.setupLoadingScreen();
@@ -384,42 +2099,54 @@
                 this.loadSavedData();
                 this.performInitialConversions();
                 this.startRGBAnimation();
-                this.createBackgroundEffects();
+                this.startUptimeCounter();
+                this.uiManager.injectAriaLabels();
+
+                // Set initial mode
+                this.switchMode('normal');
+
+                // Global Error Boundary
+                window.onerror = (message, source, lineno, colno, error) => {
+                    console.error('Global Error Caught:', message, error);
+                    this.showError('System Error: ' + message);
+                    return true; // Prevent default error handling
+                };
             }
-            
+
             // Setup loading screen
             setupLoadingScreen() {
                 const phases = [
-                    { progress: 20, hint: "Initializing calculator engine..." },
-                    { progress: 40, hint: "Loading mathematical functions..." },
-                    { progress: 60, hint: "Setting up user interface..." },
-                    { progress: 80, hint: "Preparing animations..." },
-                    { progress: 95, hint: "Almost ready..." },
-                    { progress: 100, hint: "Welcome to Mathens.io!" }
+                    { progress: 20, hint: "Initializing engine..." },
+                    { progress: 50, hint: "Optimizing UI..." },
+                    { progress: 100, hint: "Ready" }
                 ];
-                
+
+                // Use EventManager for efficient tracking
+                const add = (el, type, handler, opt) => this.eventManager.addListener(el, type, handler, opt);
+
                 phases.forEach((phase, index) => {
                     setTimeout(() => {
                         this.updateProgress(phase.progress);
                         this.updateHint(phase.hint);
-                        
+
                         if (phase.progress === 100) {
                             setTimeout(() => {
                                 this.elements.loadingScreen.classList.add('fade-out');
                                 setTimeout(() => {
                                     this.elements.loadingScreen.style.display = 'none';
-                                }, 800);
-                            }, 1000);
+                                    this.startUptimeCounter();
+                                }, 300);
+                            }, 500);
                         }
-                    }, (index + 1) * 800);
+                    }, (index + 1) * 300);
                 });
             }
-            
+
             updateProgress(percentage) {
                 this.elements.progressFill.style.width = `${percentage}%`;
                 this.elements.loadingPercentage.textContent = `${percentage}%`;
             }
-            
+
             updateHint(hint) {
                 this.elements.loadingHint.style.opacity = '0';
                 setTimeout(() => {
@@ -427,99 +2154,27 @@
                     this.elements.loadingHint.style.opacity = '1';
                 }, 200);
             }
-            
-            // Create background effects
-            createBackgroundEffects() {
-                if (this.prefersReducedMotion) return;
-                
-                this.createParticles();
-                this.createFallingStars();
-            }
-            
-            createParticles() {
-                const particlesContainer = document.getElementById('particles');
-                if (!particlesContainer) return;
-                
-                const particleCount = this.isMobile ? 20 : 40;
-                const fragment = document.createDocumentFragment();
-                
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'particle';
-                    
-                    const size = this.random(1, 3);
-                    const left = this.random(0, 100);
-                    const duration = this.random(6, 12);
-                    const delay = this.random(0, 10);
-                    
-                    Object.assign(particle.style, {
-                        width: `${size}px`,
-                        height: `${size}px`,
-                        left: `${left}vw`,
-                        animationDuration: `${duration}s`,
-                        animationDelay: `${delay}s`
-                    });
-                    
-                    fragment.appendChild(particle);
-                }
-                
-                particlesContainer.appendChild(fragment);
-            }
-            
-            createFallingStars() {
-                const starsContainer = document.getElementById('fallingStars');
-                if (!starsContainer) return;
-                
-                const starCount = this.isMobile ? 12 : 25;
-                const fragment = document.createDocumentFragment();
-                
-                for (let i = 0; i < starCount; i++) {
-                    const star = document.createElement('div');
-                    star.className = 'star';
-                    
-                    const left = this.random(0, 100);
-                    const duration = this.random(1.5, 2.5);
-                    const delay = this.random(0, 2);
-                    const size = this.random(3, 6);
-                    
-                    Object.assign(star.style, {
-                        left: `${left}vw`,
-                        animationDuration: `${duration}s`,
-                        animationDelay: `${delay}s`,
-                        width: `${size}px`,
-                        height: `${size}px`
-                    });
-                    
-                    const accentColors = [
-                        'var(--accent-1)', 'var(--accent-2)', 'var(--accent-3)', 
-                        'var(--accent-4)', 'var(--accent-5)', 'var(--accent-6)',
-                        'var(--accent-7)', 'var(--accent-8)', 'var(--accent-9)'
-                    ];
-                    star.style.background = accentColors[Math.floor(Math.random() * accentColors.length)];
-                    
-                    fragment.appendChild(star);
-                }
-                
-                starsContainer.appendChild(fragment);
-            }
-            
+
+
             random(min, max) {
                 return Math.random() * (max - min) + min;
             }
-            
+
             // Setup event listeners
             setupEventListeners() {
+                const add = (el, type, handler, opt) => this.eventManager.addListener(el, type, handler, opt);
+
                 // Event delegation for calculator buttons
-                document.addEventListener('click', (e) => {
+                add(document, 'click', (e) => {
                     const button = e.target.closest('.btn');
                     if (!button) return;
-                    
+
                     this.playSound('click');
-                    
+
                     const action = button.getAttribute('data-action');
                     const number = button.getAttribute('data-number');
                     const operation = button.getAttribute('data-operation');
-                    
+
                     if (number !== null) {
                         this.inputNumber(number);
                     } else if (operation !== null) {
@@ -528,123 +2183,194 @@
                         this.handleAction(action);
                     }
                 });
-                
+
                 // Mode switching
                 this.elements.modeButtons.forEach(button => {
-                    button.addEventListener('click', () => {
+                    add(button, 'click', () => {
                         this.playSound('click');
                         const mode = button.getAttribute('data-mode');
                         this.switchMode(mode);
-                        
+
                         this.elements.modeButtons.forEach(btn => btn.classList.remove('active'));
                         button.classList.add('active');
                     });
                 });
-                
+
+                // Finance Calculator Events
+                add(this.elements.calculateFinanceBtn, 'click', () => this.calculateFinance());
+                add(this.elements.financeType, 'change', () => this.updateFinanceLabels());
+
                 // Theme and sound toggles
-                this.elements.themeToggle.addEventListener('click', () => this.toggleTheme());
-                this.elements.soundToggle.addEventListener('click', () => this.toggleSound());
-                this.elements.rgbToggle.addEventListener('click', () => this.toggleRGB());
-                
+                add(this.elements.themeToggle, 'click', () => this.toggleTheme());
+                add(this.elements.soundToggle, 'click', () => this.toggleSound());
+                add(this.elements.rgbToggle, 'click', () => this.toggleRGB());
+
                 // Currency converter events
                 [this.elements.convertButton, this.elements.fromAmount, this.elements.fromCurrency, this.elements.toCurrency].forEach(element => {
-                    element.addEventListener('input', this.debounce(() => this.convertCurrency(), 300));
-                    element.addEventListener('change', () => this.convertCurrency());
+                    add(element, 'input', this.debounce(() => this.convertCurrency(), 300));
+                    add(element, 'change', () => this.convertCurrency());
                 });
-                
+
                 // Unit converter events
-                this.elements.unitCategory.addEventListener('change', () => this.updateUnitOptions());
+                add(this.elements.unitCategory, 'change', () => this.updateUnitOptions());
                 [this.elements.convertUnitButton, this.elements.fromUnitValue, this.elements.fromUnit, this.elements.toUnit].forEach(element => {
-                    element.addEventListener('input', this.debounce(() => this.convertUnit(), 300));
-                    element.addEventListener('change', () => this.convertUnit());
+                    add(element, 'input', this.debounce(() => this.convertUnit(), 300));
+                    add(element, 'change', () => this.convertUnit());
                 });
-                
+
+                // Settings events
+                add(this.elements.settingGlassTheme, 'change', (e) => this.applyGlassTheme(e.target.value));
+                add(this.elements.settingFont, 'change', (e) => this.applyFont(e.target.value));
+                add(this.elements.settingHighContrast, 'change', (e) => this.toggleHighContrast(e.target.checked));
+                add(this.elements.resetAllBtn, 'click', () => this.resetAllData());
+
                 // History management
-                this.elements.clearHistoryButton.addEventListener('click', () => this.clearHistory());
-                
+                add(this.elements.clearHistoryButton, 'click', () => this.clearHistory());
+
                 // Close history panel when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (this.elements.historyPanel.classList.contains('active') && 
+                add(document, 'click', (e) => {
+                    if (this.elements.historyPanel.classList.contains('active') &&
                         !e.target.closest('.history-panel') && !e.target.closest('.btn-history')) {
                         this.elements.historyPanel.classList.remove('active');
                     }
                 });
-                
+
                 // Keyboard support
-                document.addEventListener('keydown', (e) => this.handleKeyboardInput(e));
-                
+                add(document, 'keydown', (e) => this.handleKeyboardInput(e));
+
                 // Window resize handler
-                window.addEventListener('resize', this.throttle(() => {
+                add(window, 'resize', this.throttle(() => {
                     this.isMobile = window.innerWidth <= 768;
                 }, 250));
+
+                // Matrix Events
+                add(this.elements.matrixSize, 'change', () => this.initMatrixGrid());
+                add(document.getElementById('matrix-det'), 'click', () => this.handleMatrixOp('det'));
+                add(document.getElementById('matrix-inv'), 'click', () => this.handleMatrixOp('inv'));
+                add(document.getElementById('matrix-trans'), 'click', () => this.handleMatrixOp('trans'));
+                add(document.getElementById('matrix-clear'), 'click', () => this.initMatrixGrid());
+
+                // Equation Events
+                add(this.elements.equationType, 'change', () => this.initEquationInputs());
+                add(this.elements.solveEquationBtn, 'click', () => this.handleSolveEquation());
+
+                // Graphing Events
+                add(this.elements.plotGraphBtn, 'click', () => {
+                    const func = this.elements.graphFunction.value;
+                    this.graphingEngine.plot(func);
+                    this.showKeyboardHint('Function Plotted');
+                });
+                add(this.elements.clearGraphBtn, 'click', () => {
+                    this.graphingEngine.currentFunc = null;
+                    this.graphingEngine.draw();
+                });
+
+                // Geometry Events
+                this.elements.geoCards.forEach(card => {
+                    add(card, 'click', () => {
+                        const shape = card.getAttribute('data-shape');
+                        this.initGeometryInputs(shape);
+                    });
+                });
+
+                // Vector Calculations
+                add(this.elements.calculateVectorBtn, 'click', () => this.handleCalculateVector());
+
+                // Bitwise Calculations
+                add(this.elements.calculateBitwiseBtn, 'click', () => this.handleCalculateBitwise());
+
+                // Probability Calculations
+                add(this.elements.calculateProbBtn, 'click', () => this.handleCalculateProbability());
+
+                // Diagnostics
+                add(this.elements.clearLogsBtn, 'click', () => {
+                    this.logger.clear();
+                    this.renderLogs();
+                });
             }
-            
-            // Input number with validation
+
+            /**
+            /**
+             * Handles numerical input from the user.
+             * Includes rigorous checks for input length, multi-decimal prevention,
+             * and specialized handling for statistical datasets containing commas.
+             * @param {string} num - Digit, decimal point, or comma to input.
+             */
             inputNumber(num) {
                 if (this.elements.result.classList.contains('error')) {
                     this.resetCalculator();
                 }
-                
+
                 if (this.state.currentInput === '0' || this.state.resetInput) {
-                    this.state.currentInput = num === '.' ? '0.' : num;
+                    if (num === ',') {
+                        this.state.currentInput = '0,';
+                    } else {
+                        this.state.currentInput = num === '.' ? '0.' : num;
+                    }
                     this.state.resetInput = false;
                 } else {
-                    const currentLength = this.state.currentInput.replace('.', '').length;
-                    if (currentLength >= this.config.maxInputLength) {
+                    const currentLength = this.state.currentInput.replace(/[.,]/g, '').length;
+                    if (currentLength >= this.config.maxInputLength && num !== ',') {
                         this.showKeyboardHint('Max digits reached');
                         return;
                     }
-                    
+
                     if (num === '.' && this.state.currentInput.includes('.')) {
-                        this.showKeyboardHint('Decimal already exists');
+                        const lastPart = this.state.currentInput.split(',').pop();
+                        if (lastPart.includes('.')) {
+                            this.showKeyboardHint('Decimal already exists');
+                            return;
+                        }
+                    }
+
+                    if (num === ',' && this.state.currentInput.endsWith(',')) {
                         return;
                     }
-                    
-                    if (num === '0' && this.state.currentInput === '0') {
-                        return;
-                    }
-                    
-                    if (this.state.currentInput === '0' && num !== '.') {
-                        this.state.currentInput = num;
-                    } else {
-                        this.state.currentInput += num;
-                    }
+
+                    this.state.currentInput += num;
                 }
-                this.updateDisplay();
+                this.uiManager.updateDisplay(this.state, this.elements);
             }
-            
-            // Handle operations
+
+            /**
+             * Handles arithmetic and advanced operations.
+             * Routes standard operations (+, -, *, /) and scientific constants.
+             * @param {string} op - The operation key or identifier.
+             */
             handleOperation(op) {
                 this.playSound('operation');
-                
+
                 const scientificOps = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'log', 'ln', 'sqrt', 'square', 'factorial', 'pi', 'e', 'mod', 'exp'];
-                
+                const advancedOps = ['percent', 'combination', 'permutation', 'mean', 'median', 'std', 'var', 'gcd', 'lcm', 'log2'];
+
                 if (scientificOps.includes(op)) {
                     this.handleScientificOperation(op);
+                } else if (advancedOps.includes(op)) {
+                    this.handleAdvancedOperation(op);
                 } else {
                     if (this.state.operation !== null && !this.state.resetInput) {
                         this.calculateResult();
                     }
-                    
+
                     this.state.previousInput = this.state.currentInput;
                     this.state.operation = op;
                     this.state.resetInput = true;
-                    
+
                     this.elements.calculation.textContent = `${this.state.previousInput} ${this.getOperationSymbol(op)}`;
                     this.elements.result.textContent = '0';
                 }
             }
-            
+
             // Handle scientific operations
             handleScientificOperation(op) {
                 let result;
                 const inputValue = parseFloat(this.state.currentInput);
-                
+
                 if (isNaN(inputValue) && !['pi', 'e'].includes(op)) {
                     this.showError('Invalid input');
                     return;
                 }
-                
+
                 try {
                     switch (op) {
                         case 'sin':
@@ -695,12 +2421,12 @@
                         default:
                             return;
                     }
-                    
+
                     if (result !== undefined && !isNaN(result) && isFinite(result)) {
                         this.addToHistory(`${this.getOperationName(op)}(${inputValue})`, result);
                         this.state.currentInput = result.toString();
                         this.state.resetInput = true;
-                        this.updateDisplay();
+                        this.uiManager.updateDisplay(this.state, this.elements);
                     } else {
                         this.showError('Math error');
                     }
@@ -708,17 +2434,117 @@
                     this.showError('Calculation error');
                 }
             }
-            
+
+            handleAdvancedOperation(op) {
+                const inputValue = parseFloat(this.state.currentInput);
+                const historyStr = this.elements.calculation.textContent;
+                const historyValue = parseFloat(this.state.previousInput);
+
+                let result;
+                try {
+                    switch (op) {
+                        case 'mean':
+                        case 'median':
+                        case 'std':
+                        case 'var':
+                            this.calculateStats(op);
+                            return;
+                        case 'gcd':
+                            result = this.gcd(historyValue, inputValue);
+                            break;
+                        case 'lcm':
+                            result = this.lcm(historyValue, inputValue);
+                            break;
+                        case 'combination':
+                            result = ProbabilityEngine.combinations(historyValue, inputValue);
+                            break;
+                        case 'permutation':
+                            result = ProbabilityEngine.permutations(historyValue, inputValue);
+                            break;
+                        case 'log2':
+                            result = Math.log2(inputValue);
+                            break;
+                        case 'percent':
+                            result = inputValue / 100;
+                            break;
+                        default:
+                            return;
+                    }
+
+                    if (result !== undefined && !isNaN(result)) {
+                        this.state.currentInput = result.toString();
+                        this.state.resetInput = true;
+                        this.uiManager.updateDisplay(this.state, this.elements);
+                    }
+                } catch (e) {
+                    this.showError('Error');
+                }
+            }
+
+            // Stats Logic
+            calculateStats(op) {
+                const data = this.state.currentInput.split(',').map(n => parseFloat(n.trim())).filter(n => !isNaN(n));
+
+                if (data.length === 0) {
+                    this.showError('Enter dataset (e.g. 1,2,3)');
+                    return;
+                }
+
+                let result;
+                const n = data.length;
+
+                switch (op) {
+                    case 'mean':
+                        result = data.reduce((a, b) => a + b, 0) / n;
+                        break;
+                    case 'median':
+                        const sorted = [...data].sort((a, b) => a - b);
+                        const mid = Math.floor(n / 2);
+                        result = n % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+                        break;
+                    case 'var':
+                    case 'std':
+                        const mean = data.reduce((a, b) => a + b, 0) / n;
+                        const variance = data.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / n;
+                        result = op === 'var' ? variance : Math.sqrt(variance);
+                        break;
+                }
+
+                if (result !== undefined) {
+                    this.addToHistory(`${op.toUpperCase()}(${data.join(',')})`, result);
+                    this.state.currentInput = result.toString();
+                    this.state.resetInput = true;
+                    this.uiManager.updateDisplay(this.state, this.elements);
+                    this.showKeyboardHint(`${op.charAt(0).toUpperCase() + op.slice(1)} calculated`);
+                }
+            }
+
+            gcd(a, b) {
+                a = Math.abs(a);
+                b = Math.abs(b);
+                while (b) {
+                    let t = b;
+                    b = a % b;
+                    a = t;
+                }
+                return a;
+            }
+
+            lcm(a, b) {
+                return (!a || !b) ? 0 : Math.abs((a * b) / this.gcd(a, b));
+            }
+
+
             // Handle actions
             handleAction(action) {
                 switch (action) {
                     case 'clear':
                         this.resetCalculator();
-                        this.updateDisplay();
+                        this.uiManager.updateDisplay(this.state, this.elements);
                         break;
                     case 'clear-entry':
                         this.resetCurrent();
-                        this.updateDisplay();
+                        this.uiManager.updateDisplay(this.state, this.elements);
                         break;
                     case 'backspace':
                         this.backspace();
@@ -741,20 +2567,20 @@
                         break;
                 }
             }
-            
+
             // Calculate result
             calculateResult() {
                 if (this.state.operation === null || this.state.resetInput) return;
-                
+
                 let result;
                 const prev = parseFloat(this.state.previousInput);
                 const current = parseFloat(this.state.currentInput);
-                
+
                 if (isNaN(prev) || isNaN(current)) {
                     this.showError('Invalid input');
                     return;
                 }
-                
+
                 try {
                     switch (this.state.operation) {
                         case '+':
@@ -786,14 +2612,14 @@
                         default:
                             return;
                     }
-                    
+
                     if (!isNaN(result) && isFinite(result)) {
                         this.addToHistory(`${prev} ${this.getOperationSymbol(this.state.operation)} ${current}`, result);
                         this.state.currentInput = result.toString();
                         this.state.operation = null;
                         this.state.previousInput = '';
                         this.state.resetInput = true;
-                        this.updateDisplay();
+                        this.uiManager.updateDisplay(this.state, this.elements);
                     } else {
                         this.showError('Calculation error');
                     }
@@ -801,7 +2627,7 @@
                     this.showError('Math error');
                 }
             }
-            
+
             // Backspace function
             backspace() {
                 if (this.state.currentInput.length > 1) {
@@ -809,96 +2635,380 @@
                 } else {
                     this.state.currentInput = '0';
                 }
-                this.updateDisplay();
+                this.uiManager.updateDisplay(this.state, this.elements);
             }
-            
-            // Update display
-            updateDisplay() {
-                this.elements.result.textContent = this.formatNumber(this.state.currentInput);
-                this.elements.result.classList.remove('error', 'success');
-                
-                if (this.state.operation !== null) {
-                    this.elements.calculation.textContent = `${this.formatNumber(this.state.previousInput)} ${this.getOperationSymbol(this.state.operation)}`;
-                } else {
-                    this.elements.calculation.textContent = '';
-                }
-                
-                if (this.state.hasMemory) {
-                    this.elements.memoryIndicator.classList.add('active');
-                } else {
-                    this.elements.memoryIndicator.classList.remove('active');
-                }
-            }
-            
-            // Format number for display
-            formatNumber(num) {
-                if (num === 'Error' || num === 'Infinity' || num === '-Infinity' || num === 'NaN') {
-                    return num;
-                }
-                
-                const number = parseFloat(num);
-                if (isNaN(number)) return 'Error';
-                if (!isFinite(number)) return number > 0 ? 'Infinity' : '-Infinity';
-                
-                if (Math.abs(number) > this.config.scientificNotationThreshold || 
-                    (Math.abs(number) < this.config.scientificNotationSmallThreshold && number !== 0)) {
-                    return number.toExponential(6).replace('e+', 'e').replace('e-', 'e⁻');
-                }
-                
-                let formatted;
-                if (Number.isInteger(number)) {
-                    formatted = number.toString();
-                } else {
-                    formatted = parseFloat(number.toPrecision(12)).toString();
-                    
-                    if (formatted.includes('.') && formatted.split('.')[1].length > 8) {
-                        formatted = number.toFixed(8).replace(/\.?0+$/, '');
-                    }
-                }
-                
-                return formatted;
-            }
-            
-            // Switch between calculator modes
+
+
             switchMode(mode) {
+                // Cleanup previous results display if needed
+                if (this.state.currentMode === 'matrix') {
+                    this.elements.matrixResultDisplay.style.display = 'none';
+                }
+
                 this.state.currentMode = mode;
-                
+
+                // Use UIManager transition if possible (optional: refactor further)
                 const panels = [
-                    this.elements.normalCalculator, 
-                    this.elements.scientificCalculator, 
+                    this.elements.normalCalculator,
+                    this.elements.scientificCalculator,
                     this.elements.advancedCalculator,
-                    this.elements.currencyConverter, 
-                    this.elements.unitConverter
+                    this.elements.currencyConverter,
+                    this.elements.unitConverter,
+                    this.elements.financialCalculator,
+                    this.elements.dashboardSection,
+                    this.elements.settingsSection,
+                    this.elements.matrixCalculator,
+                    this.elements.equationSolver,
+                    this.elements.geometricPanel,
+                    this.elements.graphingPanel,
+                    this.elements.vectorPanel,
+                    this.elements.bitwisePanel,
+                    this.elements.probabilityPanel,
+                    this.elements.diagnosticsPanel
                 ];
-                
-                panels.forEach(el => el.style.display = 'none');
-                
+
+                panels.forEach(p => {
+                    if (p) {
+                        p.classList.remove('active-panel', 'active-panel-grid');
+                    }
+                });
+
+                let activePanel;
+                let activeClass = 'active-panel';
                 switch (mode) {
                     case 'normal':
-                        this.elements.normalCalculator.style.display = 'grid';
+                        activePanel = this.elements.normalCalculator;
+                        activeClass = 'active-panel-grid';
                         break;
                     case 'scientific':
-                        this.elements.normalCalculator.style.display = 'grid';
-                        this.elements.scientificCalculator.style.display = 'grid';
+                        this.elements.normalCalculator.classList.add('active-panel-grid');
+                        activePanel = this.elements.scientificCalculator;
+                        activeClass = 'active-panel-grid';
                         break;
                     case 'advanced':
-                        this.elements.normalCalculator.style.display = 'grid';
-                        this.elements.advancedCalculator.style.display = 'grid';
+                        this.elements.normalCalculator.classList.add('active-panel-grid');
+                        activePanel = this.elements.advancedCalculator;
+                        activeClass = 'active-panel-grid';
                         break;
                     case 'currency':
-                        this.elements.currencyConverter.style.display = 'flex';
+                        activePanel = this.elements.currencyConverter;
                         break;
                     case 'unit':
-                        this.elements.unitConverter.style.display = 'flex';
+                        activePanel = this.elements.unitConverter;
+                        break;
+                    case 'financial':
+                        activePanel = this.elements.financialCalculator;
+                        break;
+                    case 'matrix':
+                        activePanel = this.elements.matrixCalculator;
+                        this.initMatrixGrid();
+                        break;
+                    case 'equation':
+                        activePanel = this.elements.equationSolver;
+                        this.initEquationInputs();
+                        break;
+                    case 'graph':
+                        activePanel = this.elements.graphingPanel;
+                        setTimeout(() => {
+                            const canvas = this.elements.graphCanvas;
+                            canvas.width = canvas.offsetWidth || 600;
+                            canvas.height = canvas.offsetHeight || 400;
+                            this.graphingEngine.width = canvas.width;
+                            this.graphingEngine.height = canvas.height;
+                            this.graphingEngine.draw();
+                        }, 50);
+                        break;
+                    case 'geometry':
+                        activePanel = this.elements.geometricPanel;
+                        break;
+                    case 'vector':
+                        activePanel = this.elements.vectorPanel;
+                        break;
+                    case 'bitwise':
+                        activePanel = this.elements.bitwisePanel;
+                        break;
+                    case 'probability':
+                        activePanel = this.elements.probabilityPanel;
+                        break;
+                    case 'diagnostics':
+                        activePanel = this.elements.diagnosticsPanel;
+                        this.renderLogs();
+                        break;
+                    case 'dashboard':
+                        activePanel = this.elements.dashboardSection;
+                        this.updateDashboard();
+                        this.showKeyboardHint(`Tip: ${this.tutor.getRandomFact()}`);
+                        break;
+                    case 'settings':
+                        activePanel = this.elements.settingsSection;
                         break;
                 }
+
+                if (activePanel) {
+                    activePanel.classList.add(activeClass);
+                }
             }
-            
+
+            /**
+             * Updates the calculation dashboard with the latest statistics.
+             * Aggregates data from localStorage and current session state.
+             * Also injects a fresh mathematical fact for educational engagement.
+             */
+            updateDashboard() {
+                const calcCount = this.state.calculationHistory.length;
+                this.elements.dashCalcCount.textContent = calcCount;
+
+                const uptimeMs = Date.now() - this.config.startTime;
+                const uptimeMins = Math.floor(uptimeMs / 60000);
+                this.elements.dashUptime.textContent = `${uptimeMins}m`;
+
+                // Inject random math tip into dashboard
+                const tipEl = document.getElementById('most-used-mode');
+                if (tipEl) {
+                    tipEl.parentElement.innerHTML = `
+                        <div class="dash-card ios-26-glass active-panel" style="grid-column: span 2; padding: 20px;">
+                            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 12px;">
+                                <div style="width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-graduation-cap" style="color: white; font-size: 1rem;"></i>
+                                </div>
+                                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 600;">Math Fact of the Day</h4>
+                            </div>
+                            <p style="font-size: 0.88rem; line-height: 1.6; color: rgba(255,255,255,0.8); margin: 0; font-family: 'Montserrat', sans-serif;">
+                                ${this.tutor.getRandomFact()}
+                            </p>
+                        </div>
+                    `;
+                }
+            }
+
+            startUptimeCounter() {
+                setInterval(() => {
+                    if (this.state.currentMode === 'dashboard') {
+                        this.updateDashboard();
+                    }
+                }, 60000);
+            }
+
+            updateFinanceLabels() {
+                const type = this.elements.financeType.value;
+                const labels = this.elements.financeInputs.labels;
+
+                if (type === 'emi') {
+                    labels[1].textContent = "Principal Amount";
+                    labels[2].textContent = "Interest Rate (%)";
+                    labels[3].textContent = "Tenure (Years)";
+                } else if (type === 'compound') {
+                    labels[1].textContent = "Initial Investment";
+                    labels[2].textContent = "Annual Interest Rate (%)";
+                    labels[3].textContent = "Duration (Years)";
+                } else if (type === 'roi') {
+                    labels[1].textContent = "Initial Investment";
+                    labels[2].textContent = "Current Value";
+                    labels[3].textContent = "Duration (Optional Years)";
+                }
+                if (this.elements.financeResultDisplay) this.elements.financeResultDisplay.style.display = 'none';
+            }
+
+            // Vector Handlers
+            handleCalculateVector() {
+                const op = this.elements.vectorOp.value;
+                const v1 = [
+                    parseFloat(document.getElementById('vax').value) || 0,
+                    parseFloat(document.getElementById('vay').value) || 0,
+                    parseFloat(document.getElementById('vaz').value) || 0
+                ];
+                const v2 = [
+                    parseFloat(document.getElementById('vbx').value) || 0,
+                    parseFloat(document.getElementById('vby').value) || 0,
+                    parseFloat(document.getElementById('vbz').value) || 0
+                ];
+
+                let res;
+                let problemStr = `Vector ${op.toUpperCase()}`;
+
+                switch (op) {
+                    case 'add':
+                        res = VectorEngine.add(v1, v2);
+                        this.state.currentInput = `[${res.join(', ')}]`;
+                        break;
+                    case 'dot':
+                        res = VectorEngine.dotProduct(v1, v2);
+                        this.state.currentInput = res.toString();
+                        break;
+                    case 'cross':
+                        res = VectorEngine.crossProduct(v1, v2);
+                        this.state.currentInput = `[${res.join(', ')}]`;
+                        break;
+                    case 'mag':
+                        res = VectorEngine.magnitude(v1);
+                        this.state.currentInput = res.toFixed(4);
+                        break;
+                }
+
+                this.uiManager.updateDisplay(this.state, this.elements);
+                this.addToHistory(problemStr, this.state.currentInput);
+                this.logger.log(`Vector calculation: ${op}`, 'INFO');
+            }
+
+            // Bitwise Handlers
+            handleCalculateBitwise() {
+                const a = parseInt(document.getElementById('bitwise-a').value) || 0;
+                const b = parseInt(document.getElementById('bitwise-b').value) || 0;
+                const op = this.elements.bitwiseOp.value;
+
+                let res;
+                switch (op) {
+                    case 'and': res = BitwiseEngine.and(a, b); break;
+                    case 'or': res = BitwiseEngine.or(a, b); break;
+                    case 'xor': res = BitwiseEngine.xor(a, b); break;
+                    case 'not': res = BitwiseEngine.not(a); break;
+                    case 'lshift': res = BitwiseEngine.leftShift(a, b); break;
+                    case 'rshift': res = a >> b; break;
+                }
+
+                this.state.currentInput = res.toString();
+                this.uiManager.updateDisplay(this.state, this.elements);
+                this.addToHistory(`Bitwise ${op.toUpperCase()}`, res.toString());
+                this.logger.log(`Bitwise operation: ${op}`, 'DEBUG');
+            }
+
+            // Probability Handlers
+            handleCalculateProbability() {
+                const op = this.elements.probabilityOp.value;
+                const n = parseInt(document.getElementById('prob-n').value) || 0;
+                const r = parseInt(document.getElementById('prob-r').value) || 0;
+
+                let res;
+                switch (op) {
+                    case 'factorial':
+                        res = this.factorial(n);
+                        break;
+                    case 'perm':
+                        res = ProbabilityEngine.permutations(n, r);
+                        break;
+                    case 'comb':
+                        res = ProbabilityEngine.combinations(n, r);
+                        break;
+                    case 'binom':
+                        res = ProbabilityEngine.binomial(n, r, 0.5);
+                        break;
+                }
+
+                this.state.currentInput = res.toString();
+                this.uiManager.updateDisplay(this.state, this.elements);
+                this.addToHistory(`Prob: ${op}`, res.toString());
+                this.logger.log(`Probability calc: ${op}`, 'INFO');
+            }
+
+            // Diagnostics Rendering
+            renderLogs() {
+                const container = this.elements.logContainer;
+                if (!container) return;
+
+                container.innerHTML = this.logger.logs.map(log => `
+                    <div style="color: ${this.getLogColor(log.level)}; margin-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 2px;">
+                        <span style="opacity: 0.5;">[${log.timestamp}]</span>
+                        <strong style="margin: 0 5px;">${log.level}:</strong>
+                        <span>${log.message}</span>
+                    </div>
+                `).join('');
+            }
+
+            getLogColor(level) {
+                switch (level) {
+                    case 'ERROR': return '#ff4444';
+                    case 'WARNING': return '#ffbb33';
+                    case 'DEBUG': return '#00C851';
+                    default: return '#33b5e5';
+                }
+            }
+
+            calculateFinance() {
+                const type = this.elements.financeType.value;
+                const v1 = parseFloat(this.elements.financeInputs[1].value);
+                const v2 = parseFloat(this.elements.financeInputs[2].value);
+                const v3 = parseFloat(this.elements.financeInputs[3].value);
+
+                if (isNaN(v1) || isNaN(v2) || (type !== 'roi' && isNaN(v3))) {
+                    this.showError('Invalid input');
+                    return;
+                }
+
+                let resultText = "";
+
+                if (type === 'emi') {
+                    const r = v2 / 12 / 100;
+                    const n = v3 * 12;
+                    const emi = (v1 * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+                    const totalPayable = emi * n;
+                    const totalInterest = totalPayable - v1;
+                    resultText = `EMI: ${this.formatCurrency(emi)}\nTotal Int: ${this.formatCurrency(totalInterest)}`;
+                } else if (type === 'compound') {
+                    const amount = v1 * Math.pow(1 + (v2 / 100), v3);
+                    resultText = `Maturity: ${this.formatCurrency(amount)}`;
+                } else if (type === 'roi') {
+                    const roi = ((v2 - v1) / v1) * 100;
+                    resultText = `ROI: ${roi.toFixed(2)}%`;
+                }
+
+                if (this.elements.financeMainResult) this.elements.financeMainResult.textContent = resultText;
+                if (this.elements.financeResultDisplay) this.elements.financeResultDisplay.style.display = 'block';
+                this.playSound('success');
+                this.addToHistory(`Finance (${type.toUpperCase()})`, resultText);
+            }
+
+            formatCurrency(num) {
+                return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(num);
+            }
+
+            // Settings Implementation
+            applyGlassTheme(theme) {
+                document.body.classList.remove('theme-ice', 'theme-amethyst', 'theme-emerald');
+                if (theme !== 'default') {
+                    document.body.classList.add(`theme-${theme}`);
+                }
+                localStorage.setItem('calculatorGlassTheme', theme);
+
+                // Update select if it exists
+                if (this.elements.settingGlassTheme) {
+                    this.elements.settingGlassTheme.value = theme;
+                }
+
+                this.showKeyboardHint(`Theme: ${theme.charAt(0).toUpperCase() + theme.slice(1)}`);
+            }
+
+            applyFont(font) {
+                const fonts = {
+                    outfit: "'Outfit', sans-serif",
+                    inter: "'Inter', sans-serif",
+                    montserrat: "'Montserrat', sans-serif"
+                };
+                document.body.style.fontFamily = fonts[font] || fonts.outfit;
+                localStorage.setItem('calculatorFont', font);
+
+                // Update select if it exists
+                if (this.elements.settingFont) {
+                    this.elements.settingFont.value = font;
+                }
+            }
+
+            toggleHighContrast(enabled) {
+                document.body.classList.toggle('high-contrast', enabled);
+                localStorage.setItem('calculatorHighContrast', enabled.toString());
+            }
+
+            resetAllData() {
+                if (confirm('DANGER: This will delete ALL history and settings. Proceed?')) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            }
+
             // Toggle theme
             toggleTheme() {
                 document.body.classList.toggle('light-mode');
                 document.body.classList.toggle('dark-theme');
-                
+
                 if (document.body.classList.contains('light-mode')) {
                     this.elements.themeIcon.textContent = '☀️';
                     this.elements.themeText.textContent = 'Light';
@@ -906,16 +3016,16 @@
                     this.elements.themeIcon.textContent = '🌙';
                     this.elements.themeText.textContent = 'Dark';
                 }
-                
+
                 // Restart RGB animation with new theme
                 if (this.state.rgbEffects) {
                     this.stopRGBAnimation();
                     this.startRGBAnimation();
                 }
-                
+
                 localStorage.setItem('calculatorTheme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
             }
-            
+
             // Toggle sound
             toggleSound() {
                 this.state.soundEnabled = !this.state.soundEnabled;
@@ -923,12 +3033,12 @@
                 this.showKeyboardHint(this.state.soundEnabled ? 'Sound On' : 'Sound Off');
                 localStorage.setItem('calculatorSound', this.state.soundEnabled.toString());
             }
-            
+
             // Toggle RGB effects
             toggleRGB() {
                 this.state.rgbEffects = !this.state.rgbEffects;
                 this.elements.rgbToggle.classList.toggle('disabled', !this.state.rgbEffects);
-                
+
                 if (this.state.rgbEffects) {
                     this.startRGBAnimation();
                     this.showKeyboardHint('RGB Effects On');
@@ -936,20 +3046,23 @@
                     this.stopRGBAnimation();
                     this.showKeyboardHint('RGB Effects Off');
                 }
-                
+
                 localStorage.setItem('calculatorRGB', this.state.rgbEffects.toString());
             }
-            
+
             // Start RGB background animation
             startRGBAnimation() {
                 if (!this.state.rgbEffects) return;
-                
+
+                // Clear existing interval to prevent memory leaks and speed overlaps
+                if (this.rgbInterval) clearInterval(this.rgbInterval);
+
                 const body = document.body;
                 let hue = 0;
-                
+
                 this.rgbInterval = setInterval(() => {
                     hue = (hue + 0.5) % 360;
-                    
+
                     if (document.body.classList.contains('light-mode')) {
                         // Light mode gradient
                         body.style.background = `linear-gradient(-45deg, 
@@ -965,17 +3078,17 @@
                             hsl(${(hue + 180) % 360}, 70%, 40%), 
                             hsl(${(hue + 270) % 360}, 70%, 40%))`;
                     }
-                    
+
                     body.style.backgroundSize = '400% 400%';
                 }, 50);
             }
-            
+
             // Stop RGB animation
             stopRGBAnimation() {
                 if (this.rgbInterval) {
                     clearInterval(this.rgbInterval);
                     this.rgbInterval = null;
-                    
+
                     // Reset to static gradient
                     if (document.body.classList.contains('light-mode')) {
                         document.body.style.background = 'linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #a1c4fd)';
@@ -985,76 +3098,82 @@
                     document.body.style.backgroundSize = '400% 400%';
                 }
             }
-            
+
             // Play sound effects
             playSound(type) {
                 if (!this.state.soundEnabled || !window.AudioContext) return;
-                
+
                 try {
                     if (!this.audioContext) {
                         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     }
-                    
+
+                    // Resume context if suspended (browser auto-play policy)
+                    if (this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+
                     const oscillator = this.audioContext.createOscillator();
                     const gainNode = this.audioContext.createGain();
-                    
+
                     oscillator.connect(gainNode);
                     gainNode.connect(this.audioContext.destination);
-                    
+
                     let frequency = 800;
-                    switch(type) {
+                    switch (type) {
                         case 'operation': frequency = 600; break;
                         case 'equals': frequency = 400; break;
+                        case 'click': frequency = 800; break;
                     }
-                    
+
                     oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
-                    gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
-                    
+                    gainNode.gain.setValueAtTime(0.05, this.audioContext.currentTime); // Lowered volume
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.1);
+
                     oscillator.start(this.audioContext.currentTime);
                     oscillator.stop(this.audioContext.currentTime + 0.1);
                 } catch (error) {
-                    console.log('Audio error:', error);
+                    console.warn('Audio error:', error);
                 }
             }
-            
+
             // Currency conversion
             convertCurrency() {
                 const from = this.elements.fromCurrency.value;
                 const to = this.elements.toCurrency.value;
                 const amount = parseFloat(this.elements.fromAmount.value) || 0;
-                
+
                 if (amount < 0) {
                     this.elements.toAmount.value = '0';
                     return;
                 }
-                
+
                 const amountInUSD = amount / this.exchangeRates[from];
                 const convertedAmount = amountInUSD * this.exchangeRates[to];
-                
+
                 this.elements.toAmount.value = convertedAmount.toFixed(4);
             }
-            
+
             // Unit conversion
             updateUnitOptions() {
                 const category = this.elements.unitCategory.value;
                 const units = Object.keys(this.unitConversions[category]);
-                
+
                 this.elements.fromUnit.innerHTML = '';
                 this.elements.toUnit.innerHTML = '';
-                
+
                 units.forEach(unit => {
                     const fromOption = document.createElement('option');
                     fromOption.value = unit;
                     fromOption.textContent = unit;
                     this.elements.fromUnit.appendChild(fromOption);
-                    
+
                     const toOption = document.createElement('option');
                     toOption.value = unit;
                     toOption.textContent = unit;
                     this.elements.toUnit.appendChild(toOption);
                 });
-                
+
                 const defaults = {
                     length: { from: 'meters', to: 'feet' },
                     weight: { from: 'kilograms', to: 'pounds' },
@@ -1062,59 +3181,59 @@
                     area: { from: 'square meters', to: 'square feet' },
                     volume: { from: 'liters', to: 'gallons' }
                 };
-                
+
                 if (defaults[category]) {
                     this.elements.fromUnit.value = defaults[category].from;
                     this.elements.toUnit.value = defaults[category].to;
                 }
-                
+
                 this.convertUnit();
             }
-            
+
             convertUnit() {
                 const category = this.elements.unitCategory.value;
                 const from = this.elements.fromUnit.value;
                 const to = this.elements.toUnit.value;
                 const value = parseFloat(this.elements.fromUnitValue.value) || 0;
-                
+
                 let result;
-                
+
                 if (category === 'temperature') {
-                    const inCelsius = from === 'celsius' ? value : 
-                                     from === 'fahrenheit' ? (value - 32) * 5/9 : 
-                                     value - 273.15;
-                    
+                    const inCelsius = from === 'celsius' ? value :
+                        from === 'fahrenheit' ? (value - 32) * 5 / 9 :
+                            value - 273.15;
+
                     result = to === 'celsius' ? inCelsius :
-                            to === 'fahrenheit' ? (inCelsius * 9/5) + 32 :
+                        to === 'fahrenheit' ? (inCelsius * 9 / 5) + 32 :
                             inCelsius + 273.15;
                 } else {
                     result = value * (this.unitConversions[category][to] / this.unitConversions[category][from]);
                 }
-                
+
                 this.elements.toUnitValue.value = result.toFixed(6);
             }
-            
+
             // Memory functions
             memoryClear() {
                 this.state.memory = 0;
                 this.state.hasMemory = false;
                 this.showKeyboardHint('Memory Cleared');
-                this.updateDisplay();
+                this.uiManager.updateDisplay(this.state, this.elements);
             }
-            
+
             memoryRecall() {
                 this.state.currentInput = this.state.memory.toString();
-                this.updateDisplay();
+                this.uiManager.updateDisplay(this.state, this.elements);
                 this.showKeyboardHint('Memory Recalled');
             }
-            
+
             memoryAdd() {
                 this.state.memory += parseFloat(this.state.currentInput) || 0;
                 this.state.hasMemory = true;
                 this.showKeyboardHint('Added to Memory');
-                this.updateDisplay();
+                this.uiManager.updateDisplay(this.state, this.elements);
             }
-            
+
             // History functions
             toggleHistory() {
                 this.elements.historyPanel.classList.toggle('active');
@@ -1122,10 +3241,10 @@
                     this.updateHistoryDisplay();
                 }
             }
-            
+
             updateHistoryDisplay() {
                 this.elements.historyList.innerHTML = '';
-                
+
                 if (this.state.calculationHistory.length === 0) {
                     const emptyState = document.createElement('li');
                     emptyState.className = 'history-item';
@@ -1137,52 +3256,89 @@
                     this.elements.historyList.appendChild(emptyState);
                     return;
                 }
-                
+
                 this.state.calculationHistory.forEach((item, index) => {
                     const li = document.createElement('li');
-                    li.className = 'history-item';
+                    li.className = 'history-item ios-26-effect';
+                    li.style.cursor = 'copy';
                     li.setAttribute('data-index', index);
-                    li.innerHTML = `
-                        <div class="history-expression">${item.expression}</div>
-                        <div class="history-result">= ${this.formatNumber(item.result.toString())}</div>
-                        <div style="font-size: 0.7rem; opacity: 0.5;">
-                            ${item.timestamp} • ${item.mode}
-                        </div>
-                    `;
-                    
+                    li.setAttribute('title', 'Click to inject result');
+                    const exprDiv = document.createElement('div');
+                    exprDiv.className = 'history-expression';
+                    exprDiv.textContent = item.expression;
+
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'history-result';
+                    resultDiv.style.color = 'var(--primary)';
+                    resultDiv.style.fontWeight = '600';
+                    resultDiv.textContent = `= ${this.uiManager.formatNumber(item.result.toString())}`;
+
+                    const metaDiv = document.createElement('div');
+                    metaDiv.style.cssText = 'font-size: 0.65rem; opacity: 0.6; margin-top: 5px; display: flex; justify-content: space-between;';
+
+                    const timeSpan = document.createElement('span');
+                    timeSpan.textContent = item.timestamp;
+
+                    const modeSpan = document.createElement('span');
+                    modeSpan.textContent = item.mode.toUpperCase();
+
+                    metaDiv.appendChild(timeSpan);
+                    metaDiv.appendChild(modeSpan);
+
+                    li.appendChild(exprDiv);
+                    li.appendChild(resultDiv);
+                    li.appendChild(metaDiv);
+
                     li.addEventListener('click', () => {
-                        this.state.currentInput = item.result.toString();
-                        this.state.resetInput = true;
-                        this.updateDisplay();
-                        this.elements.historyPanel.classList.remove('active');
-                        this.showKeyboardHint('Result loaded from history');
+                        const val = item.result.toString();
+                        if (this.state.currentInput === '0' || this.state.resetInput) {
+                            this.state.currentInput = val;
+                        } else {
+                            // If user is typing a dataset, append with comma
+                            if (this.state.currentMode === 'advanced') {
+                                this.state.currentInput += ',' + val;
+                            } else {
+                                this.state.currentInput = val;
+                            }
+                        }
+                        this.state.resetInput = false;
+                        this.uiManager.updateDisplay(this.state, this.elements);
+                        this.playSound('success');
+                        this.showKeyboardHint('Value injected');
                     });
-                    
+
                     this.elements.historyList.appendChild(li);
                 });
             }
-            
+
             addToHistory(expression, result) {
                 const historyItem = {
                     expression,
                     result,
-                    timestamp: new Date().toLocaleString(),
+                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                     mode: this.state.currentMode
                 };
-                
+
                 this.state.calculationHistory.unshift(historyItem);
-                
+
                 if (this.state.calculationHistory.length > 50) {
                     this.state.calculationHistory.pop();
                 }
-                
+
                 this.updateHistoryDisplay();
                 this.saveHistory();
+
+                // Track total calculations
+                const total = parseInt(localStorage.getItem('totalCalculations') || '0') + 1;
+                localStorage.setItem('totalCalculations', total.toString());
+                if (this.elements.dashCalcCount) {
+                    this.elements.dashCalcCount.textContent = total;
+                }
             }
-            
+
             clearHistory() {
                 if (this.state.calculationHistory.length === 0) return;
-                
+
                 if (confirm('Are you sure you want to clear all history?')) {
                     this.state.calculationHistory = [];
                     this.updateHistoryDisplay();
@@ -1190,47 +3346,63 @@
                     this.showKeyboardHint('History Cleared');
                 }
             }
-            
+
             // Error handling
             showError(message) {
-                this.elements.result.textContent = message;
-                this.elements.result.classList.add('error');
+                this.uiManager.showError(this.elements, message);
                 setTimeout(() => {
                     this.elements.result.classList.remove('error');
-                    this.updateDisplay();
+                    this.uiManager.updateDisplay(this.state, this.elements);
                 }, 2000);
             }
-            
+
             showKeyboardHint(message) {
                 this.elements.keyboardHint.textContent = message;
                 this.elements.keyboardHint.classList.add('show');
-                
+
                 clearTimeout(this.keyboardHintTimeout);
                 this.keyboardHintTimeout = setTimeout(() => {
                     this.elements.keyboardHint.classList.remove('show');
                 }, 2000);
             }
-            
+
             // Helper functions
+            /**
+             * Calculates the factorial of a non-negative integer.
+             * Utilizes an iterative approach for stability and includes
+             * bounds checking for Infinity (n > 170).
+             * @param {number} n - The integer to calculate factorial for.
+             * @returns {number} - The resulting factorial value.
+             */
+            /**
+             * Calculates the factorial of a non-negative integer.
+             * Utilizes an iterative approach for stability and includes
+             * bounds checking for Infinity (n > 170).
+             * @param {number} n - The integer to calculate factorial for.
+             * @returns {number} - The resulting factorial value.
+             */
             factorial(n) {
                 if (n < 0 || !Number.isInteger(n)) return NaN;
                 if (n === 0 || n === 1) return 1;
-                if (n > 170) return Infinity;
-                
+                if (n > 170) {
+                    this.showKeyboardHint('Factorial(n>170) is too large');
+                    return Infinity;
+                }
+
                 let result = 1;
                 for (let i = 2; i <= n; i++) {
                     result *= i;
                 }
                 return result;
             }
-            
+
             getOperationSymbol(op) {
                 const symbols = {
                     '+': '+', '-': '−', '*': '×', '/': '÷', '^': '^', 'mod': 'mod'
                 };
                 return symbols[op] || op;
             }
-            
+
             getOperationName(op) {
                 const names = {
                     'sin': 'sin', 'cos': 'cos', 'tan': 'tan', 'asin': 'asin', 'acos': 'acos',
@@ -1239,19 +3411,19 @@
                 };
                 return names[op] || op;
             }
-            
+
             resetCalculator() {
                 this.state.currentInput = '0';
                 this.state.previousInput = '';
                 this.state.operation = null;
                 this.state.resetInput = false;
             }
-            
+
             resetCurrent() {
                 this.state.currentInput = '0';
                 this.state.resetInput = false;
             }
-            
+
             // Data persistence
             saveHistory() {
                 try {
@@ -1263,7 +3435,7 @@
                     console.error('Failed to save data:', error);
                 }
             }
-            
+
             loadSavedData() {
                 try {
                     const savedTheme = localStorage.getItem('calculatorTheme');
@@ -1276,58 +3448,77 @@
                         document.body.classList.add('dark-theme');
                         document.body.classList.remove('light-mode');
                     }
-                    
+
+                    const savedGlass = localStorage.getItem('calculatorGlassTheme');
+                    if (savedGlass) {
+                        this.applyGlassTheme(savedGlass);
+                        this.elements.settingGlassTheme.value = savedGlass;
+                    }
+
+                    const savedFont = localStorage.getItem('calculatorFont');
+                    if (savedFont) {
+                        this.applyFont(savedFont);
+                        this.elements.settingFont.value = savedFont;
+                    }
+
+                    const savedHC = localStorage.getItem('calculatorHighContrast');
+                    if (savedHC === 'true') {
+                        this.toggleHighContrast(true);
+                        this.elements.settingHighContrast.checked = true;
+                    }
+
                     const savedSound = localStorage.getItem('calculatorSound');
                     this.state.soundEnabled = savedSound !== 'false';
                     this.elements.soundToggle.classList.toggle('muted', !this.state.soundEnabled);
-                    
+
                     const savedRGB = localStorage.getItem('calculatorRGB');
                     this.state.rgbEffects = savedRGB !== 'false';
                     this.elements.rgbToggle.classList.toggle('disabled', !this.state.rgbEffects);
-                    
+
                     const savedHistory = localStorage.getItem('calculatorHistory');
                     if (savedHistory) {
                         this.state.calculationHistory = JSON.parse(savedHistory);
                         this.updateHistoryDisplay();
                     }
-                    
+
                     const savedMemory = localStorage.getItem('calculatorMemory');
                     const savedHasMemory = localStorage.getItem('calculatorHasMemory');
                     if (savedMemory) {
                         this.state.memory = parseFloat(savedMemory);
                         this.state.hasMemory = savedHasMemory === 'true';
+                        this.uiManager.updateDisplay(this.state, this.elements);
                     }
                 } catch (error) {
                     console.error('Failed to load saved data:', error);
                 }
             }
-            
+
             performInitialConversions() {
                 this.convertCurrency();
                 this.updateUnitOptions();
             }
-            
+
             // Keyboard input handling
             handleKeyboardInput(event) {
-                if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT') {
+                if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA') {
                     return;
                 }
-                
+
                 const key = event.key;
-                
+
                 if (this.keyboardShortcuts.hasOwnProperty(key)) {
                     event.preventDefault();
                     const action = this.keyboardShortcuts[key];
-                    
+
                     if (action === 'calculate') {
                         this.playSound('equals');
                         this.calculateResult();
                     } else if (action === 'clear') {
                         this.resetCalculator();
-                        this.updateDisplay();
+                        this.uiManager.updateDisplay(this.state, this.elements);
                     } else if (action === 'clear-entry') {
                         this.resetCurrent();
-                        this.updateDisplay();
+                        this.uiManager.updateDisplay(this.state, this.elements);
                     } else if (action === 'backspace') {
                         this.backspace();
                     } else if (action === 'percent') {
@@ -1339,16 +3530,16 @@
                             this.handleOperation(action);
                         }
                     }
-                    
+
                     this.showKeyboardHint(`Pressed: ${key}`);
                 }
-                
+
+                // Global Shortcuts
                 if (event.ctrlKey || event.metaKey) {
-                    switch(key) {
+                    switch (key.toLowerCase()) {
                         case 'h':
                             event.preventDefault();
                             this.toggleHistory();
-                            this.showKeyboardHint('History Toggled');
                             break;
                         case 'm':
                             event.preventDefault();
@@ -1365,8 +3556,226 @@
                     }
                 }
             }
-            
-            // Utility functions
+
+            // Advanced Mode Handlers
+            /**
+             * Initializes the Matrix grid based on selected size (2x2 or 3x3).
+             */
+            initMatrixGrid() {
+                const size = parseInt(this.elements.matrixSize.value);
+                this.elements.matrixAGrid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+                this.elements.matrixAGrid.innerHTML = '';
+
+                for (let i = 1; i <= size * size; i++) {
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.className = 'matrix-cell ios-26-effect';
+                    input.placeholder = `a${i}`;
+                    this.elements.matrixAGrid.appendChild(input);
+                }
+                this.elements.matrixResultDisplay.style.display = 'none';
+                this.showKeyboardHint(`Matrix ${size}x${size} Ready`);
+            }
+
+            /**
+             * Handles Matrix operations (Determinant, Inverse, Transpose).
+             * @param {string} op - Operation type 
+             */
+            handleMatrixOp(op) {
+                const size = parseInt(this.elements.matrixSize.value);
+                const inputs = this.elements.matrixAGrid.querySelectorAll('input');
+                const matrix = [];
+                for (let i = 0; i < size; i++) {
+                    matrix[i] = [];
+                    for (let j = 0; j < size; j++) {
+                        matrix[i][j] = parseFloat(inputs[i * size + j].value) || 0;
+                    }
+                }
+
+                let result;
+                try {
+                    if (op === 'det') {
+                        result = MatrixEngine.determinant(matrix);
+                        this.showMatrixScalarResult(result.toFixed(4));
+                        this.addToHistory(`det(A${size}x${size})`, result.toFixed(4));
+                    } else if (op === 'trans') {
+                        result = MatrixEngine.transpose(matrix);
+                        this.showMatrixGridResult(result);
+                        this.addToHistory(`trans(A${size}x${size})`, 'Matrix');
+                    } else if (op === 'inv') {
+                        result = MatrixEngine.inverse(matrix);
+                        if (result === null) {
+                            this.showMatrixScalarResult("Non-invertible (det=0)");
+                        } else {
+                            this.showMatrixGridResult(result);
+                            this.addToHistory(`inv(A${size}x${size})`, 'Matrix');
+                        }
+                    }
+                } catch (e) {
+                    this.showMatrixScalarResult("Error in calculation");
+                }
+            }
+
+            showMatrixScalarResult(val) {
+                this.elements.matrixResultDisplay.style.display = 'block';
+                this.elements.matrixResultGrid.style.display = 'none';
+                this.elements.matrixResultDisplay.querySelector('h4').textContent = `Result: ${val}`;
+            }
+
+            showMatrixGridResult(resMatrix) {
+                const size = resMatrix.length;
+                this.elements.matrixResultDisplay.style.display = 'block';
+                this.elements.matrixResultGrid.style.display = 'grid';
+                this.elements.matrixResultGrid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+                this.elements.matrixResultGrid.innerHTML = '';
+                this.elements.matrixResultDisplay.querySelector('h4').textContent = `Result Matrix`;
+
+                for (let i = 0; i < size; i++) {
+                    for (let j = 0; j < size; j++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'matrix-cell';
+                        cell.style.background = 'rgba(255,255,255,0.05)';
+                        cell.style.border = '1px solid var(--border)';
+                        cell.textContent = resMatrix[i][j].toFixed(2);
+                        this.elements.matrixResultGrid.appendChild(cell);
+                    }
+                }
+            }
+
+            /**
+             * Initializes Equation inputs based on equation type.
+             */
+            initEquationInputs() {
+                const type = this.elements.equationType.value;
+                this.elements.eqInputsContainer.innerHTML = '';
+                this.elements.eqResult.style.display = 'none';
+
+                const vars = type === 'linear' ? ['a', 'b'] :
+                    type === 'quadratic' ? ['a', 'b', 'c'] :
+                        ['a', 'b', 'c', 'd'];
+
+                vars.forEach(v => {
+                    const group = document.createElement('div');
+                    group.style.display = 'flex';
+                    group.style.alignItems = 'center';
+                    group.style.gap = '8px';
+                    group.style.marginBottom = '5px';
+
+                    const label = document.createElement('label');
+                    label.textContent = `${v} = `;
+                    label.style.minWidth = '25px';
+
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.className = 'eq-input ios-26-effect';
+                    input.style.width = '100px';
+                    input.id = `eq-val-${v}`;
+                    input.placeholder = '0';
+
+                    group.appendChild(label);
+                    group.appendChild(input);
+                    this.elements.eqInputsContainer.appendChild(group);
+                });
+            }
+
+            handleSolveEquation() {
+                const type = this.elements.equationType.value;
+                const getV = (v) => parseFloat(document.getElementById(`eq-val-${v}`).value) || 0;
+                let resultText = "";
+
+                try {
+                    if (type === 'linear') resultText = EquationSolver.solveLinear(getV('a'), getV('b'));
+                    else if (type === 'quadratic') resultText = EquationSolver.solveQuadratic(getV('a'), getV('b'), getV('c'));
+                    else resultText = EquationSolver.solveCubic(getV('a'), getV('b'), getV('c'), getV('d'));
+                } catch (e) {
+                    resultText = "Calculation error";
+                }
+
+                this.elements.eqResult.style.display = 'block';
+                this.elements.eqResultText.textContent = resultText;
+                this.addToHistory(`${type} Equation`, resultText);
+            }
+
+            /**
+             * Initializes Geometry inputs dynamically for different shapes.
+             * @param {string} shape - Shape name 
+             */
+            initGeometryInputs(shape) {
+                this.elements.geoInputContainer.innerHTML = '';
+                this.elements.geoInputContainer.style.display = 'block';
+
+                let fields = [];
+                if (shape === 'circle' || shape === 'sphere') fields = ['Radius'];
+                else if (shape === 'rectangle') fields = ['Width', 'Height'];
+                else if (shape === 'triangle') fields = ['Base', 'Height'];
+                else if (shape === 'cylinder') fields = ['Radius', 'Height'];
+
+                const title = document.createElement('h4');
+                title.textContent = `${shape.charAt(0).toUpperCase() + shape.slice(1)} Properties`;
+                title.style.marginBottom = '20px';
+                this.elements.geoInputContainer.appendChild(title);
+
+                fields.forEach(f => {
+                    const label = document.createElement('label');
+                    label.textContent = f;
+                    label.style.display = 'block';
+                    label.style.marginBottom = '10px';
+
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.className = 'ios-26-effect';
+                    input.style.width = '100%';
+                    input.style.marginBottom = '15px';
+                    input.id = `geo-input-${f.toLowerCase()}`;
+                    input.placeholder = `Enter ${f}`;
+
+                    this.elements.geoInputContainer.appendChild(label);
+                    this.elements.geoInputContainer.appendChild(input);
+                });
+
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-equals ios-26-effect';
+                btn.style.width = '100%';
+                btn.textContent = 'Calculate';
+                btn.onclick = () => this.calculateGeometry(shape);
+                this.elements.geoInputContainer.appendChild(btn);
+
+                const resDiv = document.createElement('div');
+                resDiv.id = 'geo-result-box';
+                resDiv.style.marginTop = '20px';
+                resDiv.style.padding = '15px';
+                resDiv.style.background = 'rgba(0,122,255,0.1)';
+                resDiv.style.borderRadius = '12px';
+                resDiv.style.display = 'none';
+                this.elements.geoInputContainer.appendChild(resDiv);
+            }
+
+            calculateGeometry(shape) {
+                const getV = (f) => parseFloat(document.getElementById(`geo-input-${f}`).value) || 0;
+                let result = {};
+
+                if (shape === 'circle') result = GeometryEngine.circle(getV('radius'));
+                else if (shape === 'sphere') result = GeometryEngine.sphere(getV('radius'));
+                else if (shape === 'rectangle') result = GeometryEngine.rectangle(getV('width'), getV('height'));
+                else if (shape === 'triangle') result = GeometryEngine.triangle(getV('base'), getV('height'));
+                else if (shape === 'cylinder') result = GeometryEngine.cylinder(getV('radius'), getV('height'));
+
+                const resDiv = document.getElementById('geo-result-box');
+                resDiv.style.display = 'block';
+                resDiv.innerHTML = '';
+
+                for (const [key, val] of Object.entries(result)) {
+                    const line = document.createElement('div');
+                    line.innerHTML = `<strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${val.toFixed(4)}`;
+                    line.style.marginBottom = '5px';
+                    resDiv.appendChild(line);
+                }
+                this.addToHistory(`Geometry (${shape})`, "Calculated");
+            }
+
+            /**
+             * Enhanced debouncer for UI updates.
+             */
             debounce(func, wait) {
                 let timeout;
                 return function executedFunction(...args) {
@@ -1378,10 +3787,10 @@
                     timeout = setTimeout(later, wait);
                 };
             }
-            
+
             throttle(func, limit) {
                 let inThrottle;
-                return function() {
+                return function () {
                     const args = arguments;
                     const context = this;
                     if (!inThrottle) {
@@ -1392,7 +3801,7 @@
                 }
             }
         }
-        
+
         // Initialize the application when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             const calculatorApp = new CalculatorApp();
@@ -1400,4 +3809,5 @@
         });
     </script>
 </body>
+
 </html>
